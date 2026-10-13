@@ -124,7 +124,7 @@ All notable changes to TensorQuantLib are documented here.
 ### Added
 - 36 new edge-case tests — coverage increased from 95% to 98% (243 total tests)
 - `LIMITATIONS.md` — comprehensive known limitations documentation
-- `DEPLOYMENT.md` — Docker, PyPI, and cloud deployment guide
+- `docs/DEPLOYMENT.md` — Docker, PyPI, and cloud deployment guide
 - `Dockerfile` with production and dev targets
 - `notebooks/tutorial.ipynb` — interactive Jupyter tutorial
 - `benchmarks/RESULTS.md` — benchmark results with analysis

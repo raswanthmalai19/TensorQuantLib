@@ -1,49 +1,40 @@
 # TensorQuantLib
 
 [![PyPI](https://img.shields.io/pypi/v/tensorquantlib.svg)](https://pypi.org/project/tensorquantlib/)
-[![CI](https://github.com/raswanthmalai19/TensorQuantLib./actions/workflows/ci.yml/badge.svg)](https://github.com/raswanthmalai19/TensorQuantLib./actions/workflows/ci.yml)
+[![CI](https://github.com/raswanthmalai19/TensorQuantLib/actions/workflows/ci.yml/badge.svg)](https://github.com/raswanthmalai19/TensorQuantLib/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Coverage: 98%](https://img.shields.io/badge/coverage-98%25-brightgreen.svg)](https://github.com/raswanthmalai19/TensorQuantLib.)
+[![codecov](https://codecov.io/gh/raswanthmalai19/TensorQuantLib/graph/badge.svg)](https://codecov.io/gh/raswanthmalai19/TensorQuantLib)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://docs.astral.sh/ruff/)
 [![Typed: mypy strict](https://img.shields.io/badge/typed-mypy%20strict-blue.svg)](https://mypy-lang.org/)
-[![Tests: 698](https://img.shields.io/badge/tests-698%20passing-brightgreen.svg)](https://github.com/raswanthmalai19/TensorQuantLib./actions)
+[![Tests collected: 698](https://img.shields.io/badge/tests%20collected-698-blue.svg)](https://github.com/raswanthmalai19/TensorQuantLib/actions)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://raswanthmalai19.github.io/TensorQuantLib/)
 
 **A comprehensive quantitative finance library with tensor-train compression, automatic differentiation, and stochastic models — built from scratch with NumPy and SciPy.**
 
-TensorQuantLib provides a complete toolkit for derivatives pricing, risk management, and portfolio analysis. It implements:
+TensorQuantLib provides a complete toolkit for derivatives pricing, risk management, and portfolio analysis. It compresses high-dimensional pricing surfaces using **Tensor-Train (TT) decomposition**, prices options with **Black-Scholes, Heston, American, Exotic, and Monte Carlo engines**, and computes Greeks via a custom **reverse-mode autodiff engine** — including second-order Greeks (Gamma, Vanna, Volga).
 
-- **Black-Scholes** with instant analytic Greeks
-- **Heston stochastic volatility** via characteristic functions (10-200x faster than Monte Carlo)
-- **American & Exotic options** via Longstaff-Schwartz and variance-reduced Monte Carlo
-- **High-dimensional pricing** via Tensor-Train compression (100-1000x speedup for repeated surface evals)
-- **Risk analytics** with Greeks via custom reverse-mode autodiff engine (first and second-order)
-
-> **No PyTorch. No TensorFlow. No CUDA dependency.** Custom autograd, custom TT-SVD, custom stochastic models — built entirely with NumPy and SciPy. Runs on any platform, costs nothing to deploy.
+> **No PyTorch. No TensorFlow. No JAX.** Custom autograd, custom TT-SVD, custom stochastic models — built entirely with NumPy and SciPy.
 
 ---
 
-## 📚 Documentation
+## Documentation
 
-### 📖 **Documentation Links**
+Complete documentation with API reference, tutorials, and examples:
 
-**Full Documentation Site:** https://raswanthmalai19.github.io/TensorQuantLib./
+See the [known limitations](LIMITATIONS.md) before using the library for
+production or research decisions.
 
-**Key Pages:**
-- **Quick Start Guide:** https://raswanthmalai19.github.io/TensorQuantLib./quickstart.html
-- **API Reference:** https://raswanthmalai19.github.io/TensorQuantLib./api.html
-- **Theory & Math:** https://raswanthmalai19.github.io/TensorQuantLib./theory.html
-- **Performance & Benchmarks:** https://raswanthmalai19.github.io/TensorQuantLib./performance.html
-- **Limitations & Roadmap:** https://raswanthmalai19.github.io/TensorQuantLib./limitations.html
-- **Changelog:** https://raswanthmalai19.github.io/TensorQuantLib./changelog.html
+### Primary Resources
+- **[GitHub Documentation](https://raswanthmalai19.github.io/TensorQuantLib/)** — Full docs, tutorials, and examples
+- **[PyPI Package](https://pypi.org/project/tensorquantlib/)** — Installation and releases
+- **[GitHub Repository](https://github.com/raswanthmalai19/TensorQuantLib)** — Source code and issues
 
-### 📦 **Package & Repository Links**
-
-**PyPI Package (Install):** https://pypi.org/project/tensorquantlib/
-- Install with: `pip install tensorquantlib`
-
-
+### Quick Links
+- [**API Reference**](https://raswanthmalai19.github.io/TensorQuantLib/api.html) — Full module documentation
+- [**Quick Start**](https://raswanthmalai19.github.io/TensorQuantLib/quickstart.html) — Getting started guide
+- [**Theory**](https://raswanthmalai19.github.io/TensorQuantLib/theory.html) — Mathematical foundations
+- [**Changelog**](https://raswanthmalai19.github.io/TensorQuantLib/changelog.html) — Version history
 
 ---
 
@@ -100,16 +91,16 @@ pip install tensorquantlib[all]
 ### pip install from GitHub (latest development version)
 
 ```bash
-pip install git+https://github.com/raswanthmalai19/TensorQuantLib..git
+pip install git+https://github.com/raswanthmalai19/TensorQuantLib.git
 ```
 
 ### Clone & install (development)
 
 ```bash
-git clone https://github.com/raswanthmalai19/TensorQuantLib..git
-cd TensorQuantLib.
+git clone https://github.com/raswanthmalai19/TensorQuantLib.git
+cd TensorQuantLib
 pip install -e ".[dev]"
-python -m pytest tests/ -q   # 698 passed
+python -m pytest tests/ -q   # 698 tests collected locally; CI reports pass/fail status
 ```
 
 ---
@@ -125,23 +116,14 @@ python -m pytest tests/ -q   # 698 passed
 | `garman_kohlhagen` | **< 5 µs** | FX vanilla |
 | `vasicek_bond_price` | **< 1 µs** | Closed-form A(T)/B(T) |
 | `implied_vol` | **< 1 ms** | Brent solver |
-| `heston_price` (CF) | **~1 ms** | 100-pt Gaussian quadrature; **10-200x faster than Heston MC** |
-| `TTSurrogate.evaluate` 3D | **1.5 µs** | After one-time 2 ms build; repeated evals |
-| `TTSurrogate.evaluate` 5D | **~5 µs** | 42× memory compression vs full grid; **100-1000x faster than MC for repeated evals** |
+| `heston_price` (CF) | **~1 ms** | 100-pt Gaussian quadrature |
+| `TTSurrogate.evaluate` 3D | **1.5 µs** | After one-time 2 ms build |
+| `TTSurrogate.evaluate` 5D | **~5 µs** | 42× memory compression vs full grid |
 | `heston_price_mc` | 200–500 ms | Validation only; use CF for live pricing |
 | `HestonCalibrator.fit` | 5–15 s default → **< 0.5 s** optimised | See [Performance Guide](docs/performance.rst) |
-| `american_option_lsm` | 100–500 ms | Longstaff-Schwartz Monte Carlo |
-| `asian_price_mc` | 100–400 ms | Monte Carlo; use `asian_price_cv` for 10x variance reduction |
-
-### Speed Gains Explained
-
-- **Analytic pricers** (Black-Scholes, Vasicek): instant microsecond pricing
-- **Heston via characteristic functions**: **10-200x faster than Heston Monte Carlo**
-- **TT Surrogates for repeated pricing**: Build surface once, then query repeated evals at microsecond latency — **100-1000x faster than re-running Monte Carlo each time**
-- **Monte Carlo methods** (American, Asian, exotic): Efficient but inherently slower; use for features that require it
 
 **Rule of thumb**: for anything that needs a price in a hot loop, use the analytic
-or CF pricer.  Build a `TTSurrogate` once at startup to replace any repeated MC pricer with
+or CF pricer.  Build a `TTSurrogate` once at startup to replace any MC pricer with
 µs-latency evaluation.  See the full
 [Performance & Production Guide](docs/performance.rst) for tuning knobs,
 parallel calibration, memory profiling, and the production checklist.
@@ -334,6 +316,11 @@ python -m tensorquantlib demo           # Run quick demo
 
 ## Benchmark Results
 
+The TT speedups below describe repeated surrogate evaluations after a one-time
+construction step. Build and compression costs are reported separately in the
+[reproducible benchmark results](benchmarks/RESULTS.md); small 2D and 3D grids
+can be approximately 1x and are not presented as speedups.
+
 ### TT Compression — Memory Scaling
 
 | Assets | Full Grid | TT Size | Compression Ratio |
@@ -417,7 +404,7 @@ tensorquantlib/
 | TT surrogate & pricing | 20 | Surrogate construction, evaluation, Greeks |
 | Visualization | 21 | Pricing surfaces, Greek surfaces, rank plots |
 | Integration & edge cases | 57 | Cross-module, boundary conditions, numerics |
-| **Total** | **588** | **98% line coverage** |
+| **Total collected** | **698** | See Codecov for measured coverage |
 
 ```bash
 python -m pytest tests/ -v
@@ -559,7 +546,31 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for development setup, coding standards
 
 MIT — see [`LICENSE`](LICENSE).
 
+---
 
+## Roadmap
+
+- [x] Custom autograd engine (23+ differentiable ops)
+- [x] Second-order autodiff (Hessian, HVP, Gamma/Vanna/Volga)
+- [x] Black-Scholes pricing + full Greeks
+- [x] TT-SVD compression + surrogate pricing
+- [x] Heston stochastic volatility (analytic + MC + calibration)
+- [x] American options (Longstaff-Schwartz LSM)
+- [x] Exotic options (Asian, Digital, Barrier, Lookback, Cliquet, Rainbow)
+- [x] Variance reduction techniques (5 methods + comparison)
+- [x] Risk metrics (VaR, CVaR, scenario analysis)
+- [x] Volatility surface models (SABR, SVI + calibration)
+- [x] Interest rate models (Vasicek, CIR, Nelson-Siegel)
+- [x] FX options (Garman-Kohlhagen, forwards, quanto)
+- [x] Credit risk (Merton structural, CDS pricing)
+- [x] Jump-diffusion models (Merton, Kou)
+- [x] Local volatility (Dupire, MC)
+- [x] IR derivatives (Black-76 caps/floors, swaptions)
+- [x] Market data integration (Yahoo Finance)
+- [x] Backtesting framework (engine, strategies, metrics)
+- [x] CLI interface
+- [x] PyPI release
+- [ ] GPU acceleration via CuPy
 
 ---
 
