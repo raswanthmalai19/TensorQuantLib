@@ -89,14 +89,14 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.basket</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Basket option pricing via Monte Carlo simulation.</span>
 
 <span class="sd">Provides:</span>
 <span class="sd">    - simulate_basket: Multi-asset GBM simulation for basket option pricing</span>
 <span class="sd">    - build_pricing_grid: Construct a multi-dimensional pricing tensor</span>
 <span class="sd">                          for Tensor-Train compression</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -115,10 +115,10 @@
     <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price a basket option via Monte Carlo simulation.</span>
+<span class="w">    </span><span class="sd">"""Price a basket option via Monte Carlo simulation.</span>
 
 <span class="sd">    Uses correlated geometric Brownian motion (GBM) under the</span>
 <span class="sd">    risk-neutral measure to simulate terminal asset prices.</span>
@@ -136,36 +136,36 @@
 <span class="sd">        weights: Basket weights, shape (d,).</span>
 <span class="sd">        n_paths: Number of Monte Carlo paths.</span>
 <span class="sd">        q: Dividend yields, shape (d,). Defaults to zero.</span>
-<span class="sd">        option_type: &#39;call&#39; or &#39;put&#39;.</span>
+<span class="sd">        option_type: 'call' or 'put'.</span>
 <span class="sd">        seed: Random seed for reproducibility.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (price, stderr): Discounted expected payoff and its standard error.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">S0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">S0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S0</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">option_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;call&quot;</span><span class="p">,</span> <span class="s2">&quot;put&quot;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;option_type must be &#39;call&#39; or &#39;put&#39;, got </span><span class="si">{</span><span class="n">option_type</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"call"</span><span class="p">,</span> <span class="s2">"put"</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"option_type must be 'call' or 'put', got </span><span class="si">{</span><span class="n">option_type</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">S0</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All initial spot prices S0 must be positive&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"All initial spot prices S0 must be positive"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">K</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Strike K must be positive&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Strike K must be positive"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time to expiry T must be positive&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Time to expiry T must be positive"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All volatilities must be positive&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"All volatilities must be positive"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sigma</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">d</span><span class="p">,):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sigma shape </span><span class="si">{</span><span class="n">sigma</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> doesn&#39;t match S0 length </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"sigma shape </span><span class="si">{</span><span class="n">sigma</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> doesn't match S0 length </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">corr</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;corr shape </span><span class="si">{</span><span class="n">corr</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> doesn&#39;t match (d,d)=(</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"corr shape </span><span class="si">{</span><span class="n">corr</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> doesn't match (d,d)=(</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">d</span><span class="p">,):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;weights shape </span><span class="si">{</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> doesn&#39;t match S0 length </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"weights shape </span><span class="si">{</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> doesn't match S0 length </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_paths</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_paths must be &gt;= 1&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"n_paths must be &gt;= 1"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">q</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -194,7 +194,7 @@
     <span class="n">basket</span> <span class="o">=</span> <span class="n">S_T</span> <span class="o">@</span> <span class="n">weights</span>  <span class="c1"># shape (n_paths,)</span>
 
     <span class="c1"># Payoff</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">basket</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">basket</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -221,7 +221,7 @@
     <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price a single basket option for given spot values.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Price a single basket option for given spot values."""</span>
     <span class="n">price</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">simulate_basket</span><span class="p">(</span>
         <span class="n">S0</span><span class="o">=</span><span class="n">spots</span><span class="p">,</span>
         <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span>
@@ -251,17 +251,17 @@
     <span class="n">n_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="n">n_mc_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1_000</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a multi-dimensional pricing tensor for TT compression.</span>
+<span class="w">    </span><span class="sd">"""Build a multi-dimensional pricing tensor for TT compression.</span>
 
 <span class="sd">    For each combination of spot prices on the grid, runs a Monte Carlo</span>
 <span class="sd">    simulation to compute the basket option price. Returns a d-dimensional</span>
 <span class="sd">    tensor of shape (n_points, n_points, ..., n_points).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        S0_ranges: List of (min, max) tuples for each asset&#39;s spot range.</span>
+<span class="sd">        S0_ranges: List of (min, max) tuples for each asset's spot range.</span>
 <span class="sd">        K: Strike price.</span>
 <span class="sd">        T: Time to expiry.</span>
 <span class="sd">        r: Risk-free rate.</span>
@@ -271,12 +271,12 @@
 <span class="sd">        n_points: Number of grid points per asset.</span>
 <span class="sd">        n_mc_paths: MC paths per grid point (use fewer for speed).</span>
 <span class="sd">        q: Dividend yields.</span>
-<span class="sd">        option_type: &#39;call&#39; or &#39;put&#39;.</span>
+<span class="sd">        option_type: 'call' or 'put'.</span>
 <span class="sd">        seed: Base random seed.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (grid_tensor, axes): The pricing tensor and list of 1D grid axes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S0_ranges</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">q</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -325,12 +325,12 @@
     <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">n_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a pricing grid using log-normal moment-matching (Gentle 1993).</span>
+<span class="w">    </span><span class="sd">"""Build a pricing grid using log-normal moment-matching (Gentle 1993).</span>
 
 <span class="sd">    Approximates the basket option price by matching the first two moments</span>
 <span class="sd">    of the basket value to a single log-normal distribution, then applying</span>
 <span class="sd">    the Black-Scholes formula to that equivalent asset. This is the standard</span>
-<span class="sd">    &quot;moment-matching&quot; approximation used in practice for European basket options.</span>
+<span class="sd">    "moment-matching" approximation used in practice for European basket options.</span>
 
 <span class="sd">    The approximation is accurate to within ~1-3% for typical parameters</span>
 <span class="sd">    and produces a smooth, low-rank tensor ideal for TT compression.</span>
@@ -339,7 +339,7 @@
 <span class="sd">    using ``build_pricing_grid`` (Monte Carlo) for higher accuracy.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        S0_ranges: List of (min, max) tuples for each asset&#39;s spot range.</span>
+<span class="sd">        S0_ranges: List of (min, max) tuples for each asset's spot range.</span>
 <span class="sd">        K: Strike price.</span>
 <span class="sd">        T: Time to expiry.</span>
 <span class="sd">        r: Risk-free rate.</span>
@@ -349,7 +349,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (grid_tensor, axes): Pricing tensor and grid axes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span> <span class="k">as</span> <span class="n">_norm</span>
 
     <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S0_ranges</span><span class="p">)</span>
@@ -357,7 +357,7 @@
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
     <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span> <span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="ow">in</span> <span class="n">S0_ranges</span><span class="p">]</span>
-    <span class="n">grids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">axes</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>  <span class="c1"># d arrays each shape (n,...,n)</span>
+    <span class="n">grids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">axes</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">"ij"</span><span class="p">)</span>  <span class="c1"># d arrays each shape (n,...,n)</span>
 
     <span class="c1"># Forward prices for each asset at each grid point</span>
     <span class="c1"># F_i = S_i * exp(r * T)</span>
@@ -402,7 +402,7 @@
     <span class="n">discount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
     <span class="n">grid</span> <span class="o">=</span> <span class="n">discount</span> <span class="o">*</span> <span class="p">(</span><span class="n">F_X</span> <span class="o">*</span> <span class="n">N_d1</span> <span class="o">-</span> <span class="n">K</span> <span class="o">*</span> <span class="n">N_d2</span><span class="p">)</span>
 
-    <span class="c1"># Where intrinsic value exceeds BS value (shouldn&#39;t happen but clip for safety)</span>
+    <span class="c1"># Where intrinsic value exceeds BS value (shouldn't happen but clip for safety)</span>
     <span class="n">intrinsic</span> <span class="o">=</span> <span class="n">discount</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">E_B</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">intrinsic</span><span class="p">)</span>
 

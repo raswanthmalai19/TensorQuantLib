@@ -89,18 +89,18 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.implied_vol</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Implied volatility solver for Black-Scholes options.</span>
 
 <span class="sd">Provides both scalar and vectorized implied volatility computation using</span>
-<span class="sd">Brent&#39;s method (bisection + secant) via scipy.optimize.brentq, plus a fast</span>
+<span class="sd">Brent's method (bisection + secant) via scipy.optimize.brentq, plus a fast</span>
 <span class="sd">Newton-Raphson (Halley) starter based on the Jaeckel (2015) approximation.</span>
 
 <span class="sd">Functions:</span>
 <span class="sd">    implied_vol      -- scalar IV for a single (price, S, K, T, r) tuple</span>
 <span class="sd">    implied_vol_batch -- vectorized IV for arrays of market prices</span>
 <span class="sd">    iv_surface        -- build a 2-D IV surface over (K, T) grids</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -125,14 +125,14 @@
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span>
     <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">sigma_lo</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
     <span class="n">sigma_hi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute implied volatility for a single European option via Brent&#39;s method.</span>
+<span class="w">    </span><span class="sd">"""Compute implied volatility for a single European option via Brent's method.</span>
 
 <span class="sd">    Inverts the Black-Scholes formula: finds sigma such that</span>
 <span class="sd">    ``bs_price_numpy(S, K, T, r, sigma) == market_price``.</span>
@@ -144,7 +144,7 @@
 <span class="sd">        T: Time to expiry (years).</span>
 <span class="sd">        r: Risk-free rate.</span>
 <span class="sd">        q: Continuous dividend yield (default 0).</span>
-<span class="sd">        option_type: &#39;call&#39; or &#39;put&#39;.</span>
+<span class="sd">        option_type: 'call' or 'put'.</span>
 <span class="sd">        tol: Convergence tolerance on volatility (default 1e-8).</span>
 <span class="sd">        max_iter: Maximum Brent iterations (default 100).</span>
 <span class="sd">        sigma_lo: Lower bound for volatility search (default 1e-4).</span>
@@ -161,10 +161,10 @@
 <span class="sd">        &gt;&gt;&gt; iv = implied_vol(10.45, S=100, K=100, T=1.0, r=0.05)</span>
 <span class="sd">        &gt;&gt;&gt; abs(iv - 0.2) &lt; 0.001</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># No-arbitrage bounds check</span>
     <span class="n">intrinsic</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">intrinsic</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">q</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">q</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -173,11 +173,11 @@
 
     <span class="k">if</span> <span class="n">market_price</span> <span class="o">&lt;</span> <span class="n">intrinsic</span> <span class="o">-</span> <span class="n">tol</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;market_price=</span><span class="si">{</span><span class="n">market_price</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> is below intrinsic value &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">intrinsic</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> — violates no-arbitrage&quot;</span>
+            <span class="sa">f</span><span class="s2">"market_price=</span><span class="si">{</span><span class="n">market_price</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> is below intrinsic value "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">intrinsic</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> — violates no-arbitrage"</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">market_price</span> <span class="o">&gt;</span> <span class="n">upper_bound</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;market_price=</span><span class="si">{</span><span class="n">market_price</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> exceeds upper bound </span><span class="si">{</span><span class="n">upper_bound</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"market_price=</span><span class="si">{</span><span class="n">market_price</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> exceeds upper bound </span><span class="si">{</span><span class="n">upper_bound</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Objective function</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -188,8 +188,8 @@
     <span class="n">f_hi</span> <span class="o">=</span> <span class="n">objective</span><span class="p">(</span><span class="n">sigma_hi</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">f_lo</span> <span class="o">*</span> <span class="n">f_hi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Root not bracketed: f(</span><span class="si">{</span><span class="n">sigma_lo</span><span class="si">}</span><span class="s2">)=</span><span class="si">{</span><span class="n">f_lo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, f(</span><span class="si">{</span><span class="n">sigma_hi</span><span class="si">}</span><span class="s2">)=</span><span class="si">{</span><span class="n">f_hi</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="s2">&quot;Try widening sigma_lo / sigma_hi.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Root not bracketed: f(</span><span class="si">{</span><span class="n">sigma_lo</span><span class="si">}</span><span class="s2">)=</span><span class="si">{</span><span class="n">f_lo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, f(</span><span class="si">{</span><span class="n">sigma_hi</span><span class="si">}</span><span class="s2">)=</span><span class="si">{</span><span class="n">f_hi</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. "</span>
+            <span class="s2">"Try widening sigma_lo / sigma_hi."</span>
         <span class="p">)</span>
 
     <span class="n">result</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">sigma_lo</span><span class="p">,</span> <span class="n">sigma_hi</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">)</span>
@@ -211,12 +211,12 @@
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span>
     <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implied volatility via Newton-Raphson with vega denominator.</span>
+<span class="w">    </span><span class="sd">"""Implied volatility via Newton-Raphson with vega denominator.</span>
 
 <span class="sd">    Faster than Brent for well-behaved cases (ATM options, moderate T).</span>
 <span class="sd">    Falls back to Brent if Newton diverges or vega is too small.</span>
@@ -229,7 +229,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Implied volatility.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Seed with Brenner-Subrahmanyam approximation: sigma ≈ (2π/T)^0.5 * (C/S)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">market_price</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span>
@@ -265,12 +265,12 @@
     <span class="n">T</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span>
-    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;brent&quot;</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"brent"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute implied volatility for arrays of market prices.</span>
+<span class="w">    </span><span class="sd">"""Compute implied volatility for arrays of market prices.</span>
 
 <span class="sd">    All array arguments are broadcast together; scalars are repeated.</span>
 
@@ -281,9 +281,9 @@
 <span class="sd">        T: Time(s) to expiry.</span>
 <span class="sd">        r: Risk-free rate (scalar).</span>
 <span class="sd">        q: Dividend yield (scalar).</span>
-<span class="sd">        option_type: &#39;call&#39; or &#39;put&#39;.</span>
+<span class="sd">        option_type: 'call' or 'put'.</span>
 <span class="sd">        tol: Convergence tolerance.</span>
-<span class="sd">        method: &#39;brent&#39; (robust) or &#39;newton&#39; (faster).</span>
+<span class="sd">        method: 'brent' (robust) or 'newton' (faster).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Array of implied volatilities (same broadcast shape). NaN where</span>
@@ -292,14 +292,14 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">        &gt;&gt;&gt; ivs = implied_vol_batch([5.0, 10.0, 15.0], S=100, K=100, T=1.0, r=0.05)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">prices_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">market_prices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">S_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">prices_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">K_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">prices_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">T_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">prices_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
     <span class="n">ivs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">prices_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-    <span class="n">fn</span> <span class="o">=</span> <span class="n">implied_vol</span> <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;brent&quot;</span> <span class="k">else</span> <span class="n">implied_vol_nr</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">implied_vol</span> <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"brent"</span> <span class="k">else</span> <span class="n">implied_vol_nr</span>
 
     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="n">prices_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -334,10 +334,10 @@
     <span class="n">T_grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a 2-D implied volatility surface over a (K, T) grid.</span>
+<span class="w">    </span><span class="sd">"""Build a 2-D implied volatility surface over a (K, T) grid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        market_prices: 2-D array of shape (len(K_grid), len(T_grid)).</span>
@@ -346,7 +346,7 @@
 <span class="sd">        T_grid: 1-D array of expiries.</span>
 <span class="sd">        r: Risk-free rate.</span>
 <span class="sd">        q: Dividend yield.</span>
-<span class="sd">        option_type: &#39;call&#39; or &#39;put&#39;.</span>
+<span class="sd">        option_type: 'call' or 'put'.</span>
 <span class="sd">        tol: Solver tolerance.</span>
 
 <span class="sd">    Returns:</span>
@@ -362,9 +362,9 @@
 <span class="sd">        &gt;&gt;&gt; surf = iv_surface(prices, 100.0, K, T, 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; np.allclose(surf, 0.2, atol=1e-4)</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">assert</span> <span class="n">market_prices</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">K_grid</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">T_grid</span><span class="p">)),</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;market_prices shape </span><span class="si">{</span><span class="n">market_prices</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> must be (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">K_grid</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">T_grid</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="sa">f</span><span class="s2">"market_prices shape </span><span class="si">{</span><span class="n">market_prices</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> must be (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">K_grid</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">T_grid</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
     <span class="p">)</span>
     <span class="n">surface</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">market_prices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">K_grid</span><span class="p">):</span>

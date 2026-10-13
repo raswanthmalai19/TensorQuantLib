@@ -89,10 +89,10 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.ir_derivatives</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Interest rate derivatives: swaptions, caps, and floors.</span>
+<span></span><span class="sd">"""Interest rate derivatives: swaptions, caps, and floors.</span>
 
 <span class="sd">Pricing under the Black (1976) model for European swaptions and caplets.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -115,7 +115,7 @@
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price a single caplet using the Black (1976) model.</span>
+<span class="w">    </span><span class="sd">"""Price a single caplet using the Black (1976) model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -138,7 +138,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Caplet price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">forward</span> <span class="o">-</span> <span class="n">strike</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">df</span> <span class="o">*</span> <span class="n">notional</span>
     <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">forward</span> <span class="o">/</span> <span class="n">strike</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
@@ -158,7 +158,7 @@
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price a single floorlet using Black (1976).</span>
+<span class="w">    </span><span class="sd">"""Price a single floorlet using Black (1976).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -169,7 +169,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Floorlet price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">strike</span> <span class="o">-</span> <span class="n">forward</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">df</span> <span class="o">*</span> <span class="n">notional</span>
     <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">forward</span> <span class="o">/</span> <span class="n">strike</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
@@ -189,7 +189,7 @@
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price an interest rate cap (sum of caplets).</span>
+<span class="w">    </span><span class="sd">"""Price an interest rate cap (sum of caplets).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -212,7 +212,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Total cap price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">forwards</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">forwards</span><span class="p">)):</span>
@@ -232,10 +232,10 @@
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price an interest rate floor (sum of floorlets).</span>
+<span class="w">    </span><span class="sd">"""Price an interest rate floor (sum of floorlets).</span>
 
 <span class="sd">    Parameters same as :func:`cap_price`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">forwards</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">forwards</span><span class="p">)):</span>
@@ -254,7 +254,7 @@
 <div class="viewcode-block" id="swap_rate">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.finance.ir_derivatives.swap_rate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">swap_rate</span><span class="p">(</span><span class="n">dfs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Par swap rate from discount factors.</span>
+<span class="w">    </span><span class="sd">"""Par swap rate from discount factors.</span>
 
 <span class="sd">    S = (df_0 - df_n) / (tau * sum(df_i))</span>
 
@@ -269,7 +269,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Par swap rate.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">annuity</span> <span class="o">=</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">if</span> <span class="n">annuity</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
@@ -288,7 +288,7 @@
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">payer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price a European swaption using Black (1976).</span>
+<span class="w">    </span><span class="sd">"""Price a European swaption using Black (1976).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -301,7 +301,7 @@
 <span class="sd">    sigma : float</span>
 <span class="sd">        Black implied vol for the swap rate.</span>
 <span class="sd">    annuity : float</span>
-<span class="sd">        PV of the swap&#39;s fixed-leg annuity factor.</span>
+<span class="sd">        PV of the swap's fixed-leg annuity factor.</span>
 <span class="sd">    notional : float</span>
 <span class="sd">        Notional.</span>
 <span class="sd">    payer : bool</span>
@@ -312,7 +312,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Swaption price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">T_option</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">payer</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">swap_r</span> <span class="o">-</span> <span class="n">strike</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">annuity</span> <span class="o">*</span> <span class="n">notional</span>
@@ -340,12 +340,12 @@
     <span class="n">annuity</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check put-call parity for swaptions.</span>
+<span class="w">    </span><span class="sd">"""Check put-call parity for swaptions.</span>
 
 <span class="sd">    Payer - Receiver = (S - K) * A * N</span>
 
 <span class="sd">    Returns the parity residual (should be ~0).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="n">swap_r</span> <span class="o">-</span> <span class="n">strike</span><span class="p">)</span> <span class="o">*</span> <span class="n">annuity</span> <span class="o">*</span> <span class="n">notional</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">payer</span> <span class="o">-</span> <span class="n">receiver</span> <span class="o">-</span> <span class="n">expected</span><span class="p">)</span></div>
 

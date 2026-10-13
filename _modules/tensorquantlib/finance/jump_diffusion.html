@@ -89,11 +89,11 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.jump_diffusion</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Jump-diffusion models for option pricing.</span>
+<span></span><span class="sd">"""Jump-diffusion models for option pricing.</span>
 
 <span class="sd">- Merton (1976) jump-diffusion: analytic + MC</span>
 <span class="sd">- Kou (2002) double-exponential jump-diffusion: MC</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -117,10 +117,10 @@
     <span class="n">lam</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">mu_j</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma_j</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">n_terms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merton (1976) jump-diffusion price via series expansion.</span>
+<span class="w">    </span><span class="sd">"""Merton (1976) jump-diffusion price via series expansion.</span>
 
 <span class="sd">    The stock follows dS/S = (r - lambda*k)*dt + sigma*dW + J*dN</span>
 <span class="sd">    where N is Poisson(lambda*T), J ~ LogNormal(mu_j, sigma_j^2),</span>
@@ -145,7 +145,7 @@
 <span class="sd">    sigma_j : float</span>
 <span class="sd">        Std dev of log-jump size.</span>
 <span class="sd">    option_type : str</span>
-<span class="sd">        ``&#39;call&#39;`` or ``&#39;put&#39;``.</span>
+<span class="sd">        ``'call'`` or ``'put'``.</span>
 <span class="sd">    n_terms : int</span>
 <span class="sd">        Number of terms in the series expansion.</span>
 
@@ -153,7 +153,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Option price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">mu_j</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma_j</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
     <span class="n">lam_prime</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
     <span class="n">price</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -165,7 +165,7 @@
         <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S</span> <span class="o">/</span> <span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r_n</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma_n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_n</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
         <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">sigma_n</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
             <span class="n">bs_n</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r_n</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">bs_n</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r_n</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d1</span><span class="p">)</span>
@@ -188,12 +188,12 @@
     <span class="n">lam</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">mu_j</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma_j</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merton jump-diffusion price via Monte Carlo.</span>
+<span class="w">    </span><span class="sd">"""Merton jump-diffusion price via Monte Carlo.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -210,7 +210,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        MC estimate of the option price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_steps</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">mu_j</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma_j</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
@@ -231,7 +231,7 @@
         <span class="n">log_S</span> <span class="o">+=</span> <span class="n">drift</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">jump</span>
 
     <span class="n">S_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_S</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -257,12 +257,12 @@
     <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">eta1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">eta2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Kou (2002) double-exponential jump-diffusion via Monte Carlo.</span>
+<span class="w">    </span><span class="sd">"""Kou (2002) double-exponential jump-diffusion via Monte Carlo.</span>
 
 <span class="sd">    Jump sizes J follow a double-exponential distribution:</span>
 <span class="sd">        f(x) = p * eta1 * exp(-eta1*x) * 1_{x&gt;=0}</span>
@@ -289,7 +289,7 @@
 <span class="sd">    eta2 : float</span>
 <span class="sd">        Rate parameter for downward jumps (eta2 &gt; 0).</span>
 <span class="sd">    option_type : str</span>
-<span class="sd">        ``&#39;call&#39;`` or ``&#39;put&#39;``.</span>
+<span class="sd">        ``'call'`` or ``'put'``.</span>
 <span class="sd">    n_paths : int</span>
 <span class="sd">        Number of MC paths.</span>
 <span class="sd">    n_steps : int</span>
@@ -301,7 +301,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        MC estimate of option price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_steps</span>
     <span class="c1"># E[e^J] = p*eta1/(eta1-1) + (1-p)*eta2/(eta2+1)</span>
@@ -326,7 +326,7 @@
         <span class="n">log_S</span> <span class="o">+=</span> <span class="n">drift</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">jump</span>
 
     <span class="n">S_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_S</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>

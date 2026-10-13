@@ -89,13 +89,13 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.rates</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Interest rate models: Vasicek, CIR, Nelson-Siegel, and yield curve bootstrap.</span>
+<span></span><span class="sd">"""Interest rate models: Vasicek, CIR, Nelson-Siegel, and yield curve bootstrap.</span>
 
 <span class="sd">Implements short-rate models and yield curve fitting:</span>
 <span class="sd">- Vasicek (1977): mean-reverting Gaussian short rate</span>
 <span class="sd">- CIR (1985): mean-reverting square-root short rate</span>
 <span class="sd">- Nelson-Siegel (1987): parametric yield curve</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -115,7 +115,7 @@
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero-coupon bond price under the Vasicek model.</span>
+<span class="w">    </span><span class="sd">"""Zero-coupon bond price under the Vasicek model.</span>
 
 <span class="sd">    dr = kappa * (theta - r) * dt + sigma * dW</span>
 
@@ -136,7 +136,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Bond price P(0, T).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">kappa</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
         <span class="c1"># No mean reversion: simple exponential</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r0</span> <span class="o">*</span> <span class="n">T</span><span class="p">))</span>
@@ -156,13 +156,13 @@
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Continuously compounded yield under Vasicek: y = -ln(P)/T.</span>
+<span class="w">    </span><span class="sd">"""Continuously compounded yield under Vasicek: y = -ln(P)/T.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Yield for maturity T.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">vasicek_bond_price</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">T</span><span class="p">)</span></div>
 
@@ -178,9 +178,9 @@
     <span class="n">T_option</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">T_bond</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">K</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;European option on a zero-coupon bond under Vasicek.</span>
+<span class="w">    </span><span class="sd">"""European option on a zero-coupon bond under Vasicek.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -195,13 +195,13 @@
 <span class="sd">    K : float</span>
 <span class="sd">        Strike price of the option.</span>
 <span class="sd">    option_type : str</span>
-<span class="sd">        &#39;call&#39; or &#39;put&#39;.</span>
+<span class="sd">        'call' or 'put'.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Option price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
 
     <span class="n">B_s</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="n">T_bond</span> <span class="o">-</span> <span class="n">T_option</span><span class="p">)))</span> <span class="o">/</span> <span class="n">kappa</span>
@@ -213,7 +213,7 @@
     <span class="n">d1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">P_T</span> <span class="o">/</span> <span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">P_s</span><span class="p">))</span> <span class="o">/</span> <span class="n">sigma_p</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma_p</span>
     <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">sigma_p</span>
 
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">price</span> <span class="o">=</span> <span class="n">P_T</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span> <span class="o">*</span> <span class="n">P_s</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">price</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">P_s</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">)</span> <span class="o">-</span> <span class="n">P_T</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d1</span><span class="p">)</span>
@@ -234,13 +234,13 @@
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate Vasicek short rate paths.</span>
+<span class="w">    </span><span class="sd">"""Simulate Vasicek short rate paths.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    array, shape (n_steps + 1, n_paths)</span>
 <span class="sd">        Simulated short rate paths including initial value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_steps</span>
     <span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_paths</span><span class="p">))</span>
@@ -268,7 +268,7 @@
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero-coupon bond price under the CIR model.</span>
+<span class="w">    </span><span class="sd">"""Zero-coupon bond price under the CIR model.</span>
 
 <span class="sd">    dr = kappa * (theta - r) * dt + sigma * sqrt(r) * dW</span>
 
@@ -281,7 +281,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Bond price P(0, T).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">kappa</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">eg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
 
@@ -305,7 +305,7 @@
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Continuously compounded yield under CIR.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Continuously compounded yield under CIR."""</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">cir_bond_price</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">T</span><span class="p">)</span></div>
 
@@ -323,13 +323,13 @@
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate CIR short rate paths (full truncation scheme).</span>
+<span class="w">    </span><span class="sd">"""Simulate CIR short rate paths (full truncation scheme).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    array, shape (n_steps + 1, n_paths)</span>
 <span class="sd">        Simulated short rate paths.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_steps</span>
     <span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_paths</span><span class="p">))</span>
@@ -348,10 +348,10 @@
 <div class="viewcode-block" id="feller_condition">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.finance.rates.feller_condition">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">feller_condition</span><span class="p">(</span><span class="n">kappa</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the Feller condition: 2*kappa*theta &gt;= sigma^2.</span>
+<span class="w">    </span><span class="sd">"""Check the Feller condition: 2*kappa*theta &gt;= sigma^2.</span>
 
 <span class="sd">    When satisfied, CIR process stays strictly positive.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">kappa</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">&gt;=</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span></div>
 
 
@@ -370,7 +370,7 @@
     <span class="n">beta2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Nelson-Siegel (1987) yield curve model.</span>
+<span class="w">    </span><span class="sd">"""Nelson-Siegel (1987) yield curve model.</span>
 
 <span class="sd">    y(T) = beta0 + beta1 * (1 - exp(-T/tau)) / (T/tau)</span>
 <span class="sd">                  + beta2 * ((1 - exp(-T/tau)) / (T/tau) - exp(-T/tau))</span>
@@ -392,7 +392,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float or array</span>
 <span class="sd">        Yield(s) at the given maturity/maturities.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">scalar_input</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
@@ -415,7 +415,7 @@
     <span class="n">yields</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">initial_guess</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calibrate Nelson-Siegel parameters to market yields.</span>
+<span class="w">    </span><span class="sd">"""Calibrate Nelson-Siegel parameters to market yields.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -429,8 +429,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        {&#39;beta0&#39;: ..., &#39;beta1&#39;: ..., &#39;beta2&#39;: ..., &#39;tau&#39;: ..., &#39;rmse&#39;: ...}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        {'beta0': ..., 'beta1': ..., 'beta2': ..., 'tau': ..., 'rmse': ...}</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
 
     <span class="n">maturities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">maturities</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -449,8 +449,8 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
         <span class="n">objective</span><span class="p">,</span>
         <span class="n">x0</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">,</span>
-        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Nelder-Mead&quot;</span><span class="p">,</span>
-        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="s2">&quot;xatol&quot;</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="s2">&quot;fatol&quot;</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">},</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">"Nelder-Mead"</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">"maxiter"</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="s2">"xatol"</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="s2">"fatol"</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">},</span>
     <span class="p">)</span>
 
     <span class="n">b0</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
@@ -458,11 +458,11 @@
     <span class="n">rmse</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">model_yields</span> <span class="o">-</span> <span class="n">yields</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;beta0&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b0</span><span class="p">),</span>
-        <span class="s2">&quot;beta1&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b1</span><span class="p">),</span>
-        <span class="s2">&quot;beta2&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b2</span><span class="p">),</span>
-        <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span>
-        <span class="s2">&quot;rmse&quot;</span><span class="p">:</span> <span class="n">rmse</span><span class="p">,</span>
+        <span class="s2">"beta0"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b0</span><span class="p">),</span>
+        <span class="s2">"beta1"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b1</span><span class="p">),</span>
+        <span class="s2">"beta2"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b2</span><span class="p">),</span>
+        <span class="s2">"tau"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span>
+        <span class="s2">"rmse"</span><span class="p">:</span> <span class="n">rmse</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -478,7 +478,7 @@
     <span class="n">maturities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">prices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bootstrap zero-coupon yields from bond prices.</span>
+<span class="w">    </span><span class="sd">"""Bootstrap zero-coupon yields from bond prices.</span>
 
 <span class="sd">    Assumes prices are for zero-coupon bonds with face value 1.</span>
 
@@ -493,7 +493,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    array</span>
 <span class="sd">        Continuously compounded zero rates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">maturities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">maturities</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">prices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span> <span class="o">/</span> <span class="n">maturities</span></div>

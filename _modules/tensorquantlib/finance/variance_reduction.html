@@ -89,7 +89,7 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.variance_reduction</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Variance reduction techniques for Monte Carlo option pricing.</span>
 
 <span class="sd">This module provides drop-in variance-reduced Monte Carlo pricers</span>
@@ -109,7 +109,7 @@
 <span class="sd">    Glasserman, P. (2003). Monte Carlo Methods in Financial Engineering. Springer.</span>
 <span class="sd">    Joe, S. &amp; Kuo, F.Y. (2008). Constructing Sobol sequences with better two-dimensional projections.</span>
 <span class="sd">    SIAM J. Sci. Comput. 30(5), 2635-2654.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -133,13 +133,13 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_stderr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;European option price via MC with antithetic variates.</span>
+<span class="w">    </span><span class="sd">"""European option price via MC with antithetic variates.</span>
 
 <span class="sd">    For a standard GBM payoff, using the paired (z, -z) construction reduces</span>
 <span class="sd">    variance by roughly 50% compared to crude Monte Carlo.</span>
@@ -157,14 +157,14 @@
 <span class="sd">        &gt;&gt;&gt; p = bs_price_antithetic(100, 100, 1.0, 0.05, 0.2, seed=42)</span>
 <span class="sd">        &gt;&gt;&gt; 9.0 &lt; p &lt; 12.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">half</span> <span class="o">=</span> <span class="n">n_paths</span> <span class="o">//</span> <span class="mi">2</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">half</span><span class="p">)</span>
     <span class="n">z_full</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">z</span><span class="p">])</span>
 
     <span class="n">S_T</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="n">q</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">z_full</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -191,14 +191,14 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_stderr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Asian arithmetic-average option with geometric control variate.</span>
+<span class="w">    </span><span class="sd">"""Asian arithmetic-average option with geometric control variate.</span>
 
 <span class="sd">    Uses the closed-form geometric Asian price (Kemna &amp; Vorst 1990) as a</span>
 <span class="sd">    control variate, exploiting the high correlation between arithmetic</span>
@@ -218,7 +218,7 @@
 <span class="sd">        &gt;&gt;&gt; p = asian_price_cv(100, 100, 1.0, 0.05, 0.2, seed=42)</span>
 <span class="sd">        &gt;&gt;&gt; 5.0 &lt; p &lt; 12.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tensorquantlib.finance.exotics</span><span class="w"> </span><span class="kn">import</span> <span class="n">asian_geometric_price</span>
 
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -231,7 +231,7 @@
     <span class="n">arith_avg</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">geo_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">arith_payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">arith_avg</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="n">geo_payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">geo_avg</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -270,14 +270,14 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">65_536</span><span class="p">,</span>  <span class="c1"># power of 2 recommended for Sobol</span>
     <span class="n">scramble</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_stderr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;European option price via Quasi-Monte Carlo (1-D Sobol sequence).</span>
+<span class="w">    </span><span class="sd">"""European option price via Quasi-Monte Carlo (1-D Sobol sequence).</span>
 
 <span class="sd">    Low-discrepancy sequences converge at O(1/N) vs O(1/sqrt(N)) for</span>
 <span class="sd">    pseudo-random MC, giving ~10-100x better accuracy for the same N.</span>
@@ -298,13 +298,13 @@
 <span class="sd">        &gt;&gt;&gt; p = bs_price_qmc(100, 100, 1.0, 0.05, 0.2, seed=42)</span>
 <span class="sd">        &gt;&gt;&gt; 9.0 &lt; p &lt; 12.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">Sobol</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scramble</span><span class="o">=</span><span class="n">scramble</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">u</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_paths</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">))</span>
 
     <span class="n">S_T</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="n">q</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -331,13 +331,13 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_stderr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;European option price via importance sampling.</span>
+<span class="w">    </span><span class="sd">"""European option price via importance sampling.</span>
 
 <span class="sd">    Shifts the sampling distribution to centre around the region where</span>
 <span class="sd">    the option pays off. Particularly effective for deep OTM options</span>
@@ -358,7 +358,7 @@
 <span class="sd">        &gt;&gt;&gt; p = bs_price_importance(100, 100, 1.0, 0.05, 0.2, seed=0)</span>
 <span class="sd">        &gt;&gt;&gt; 9.0 &lt; p &lt; 12.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
     <span class="n">sqrt_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
@@ -368,7 +368,7 @@
     <span class="c1"># Under the shifted measure Q̃, we draw  W̃ ~ N(mu_star, 1)  ↔  draw z~N(0,1),</span>
     <span class="c1"># set W̃ = z + mu_star.  Then S_T = S * exp(drift + sigma*sqrt_T*(z+mu_star)).</span>
     <span class="c1"># Radon-Nikodym derivative dP/dQ̃ = exp(-mu_star*z - 0.5*mu_star^2).</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">mu_star</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span> <span class="o">-</span> <span class="n">drift</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">sqrt_T</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mu_star</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span> <span class="o">-</span> <span class="n">drift</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">sqrt_T</span><span class="p">)</span>
@@ -380,7 +380,7 @@
     <span class="c1"># Likelihood ratio  dP/dQ̃  (original measure / importance measure)</span>
     <span class="n">lr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu_star</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">mu_star</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -408,14 +408,14 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">n_strata</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_stderr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;European option price via stratified sampling over the unit interval.</span>
+<span class="w">    </span><span class="sd">"""European option price via stratified sampling over the unit interval.</span>
 
 <span class="sd">    Divides [0,1] into n_strata equal strata and draws one uniform sample</span>
 <span class="sd">    from each, then maps via the quantile function. This reduces variance</span>
@@ -435,7 +435,7 @@
 <span class="sd">        &gt;&gt;&gt; p = bs_price_stratified(100, 100, 1.0, 0.05, 0.2, seed=0)</span>
 <span class="sd">        &gt;&gt;&gt; 9.0 &lt; p &lt; 12.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">paths_per_stratum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_paths</span> <span class="o">//</span> <span class="n">n_strata</span><span class="p">)</span>
     <span class="n">total</span> <span class="o">=</span> <span class="n">paths_per_stratum</span> <span class="o">*</span> <span class="n">n_strata</span>
@@ -448,7 +448,7 @@
     <span class="n">z</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">))</span>
 
     <span class="n">S_T</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="n">q</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -475,13 +475,13 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare all variance reduction methods for a European option.</span>
+<span class="w">    </span><span class="sd">"""Compare all variance reduction methods for a European option.</span>
 
-<span class="sd">    Returns a dict mapping method name -&gt; {&#39;price&#39;: ..., &#39;stderr&#39;: ..., &#39;vr_ratio&#39;: ...}</span>
+<span class="sd">    Returns a dict mapping method name -&gt; {'price': ..., 'stderr': ..., 'vr_ratio': ...}</span>
 <span class="sd">    where vr_ratio = stderr_crude_mc / stderr_method (higher is better).</span>
 
 <span class="sd">    Args:</span>
@@ -494,15 +494,15 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; results = compare_variance_reduction(100, 100, 1.0, 0.05, 0.2, seed=0)</span>
-<span class="sd">        &gt;&gt;&gt; &#39;crude_mc&#39; in results and &#39;antithetic&#39; in results</span>
+<span class="sd">        &gt;&gt;&gt; 'crude_mc' in results and 'antithetic' in results</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Crude MC reference</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">n_paths</span><span class="p">)</span>
     <span class="n">S_T</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="n">q</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">pf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_T</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">pf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_T</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -511,13 +511,13 @@
     <span class="n">crude_stderr</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">pf</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_paths</span><span class="p">))</span>
 
     <span class="n">methods</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">methods</span><span class="p">[</span><span class="s2">&quot;crude_mc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="n">crude_price</span><span class="p">,</span> <span class="s2">&quot;stderr&quot;</span><span class="p">:</span> <span class="n">crude_stderr</span><span class="p">,</span> <span class="s2">&quot;vr_ratio&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+    <span class="n">methods</span><span class="p">[</span><span class="s2">"crude_mc"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"price"</span><span class="p">:</span> <span class="n">crude_price</span><span class="p">,</span> <span class="s2">"stderr"</span><span class="p">:</span> <span class="n">crude_stderr</span><span class="p">,</span> <span class="s2">"vr_ratio"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
 
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fn</span> <span class="ow">in</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;antithetic&quot;</span><span class="p">,</span> <span class="n">bs_price_antithetic</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;qmc_sobol&quot;</span><span class="p">,</span> <span class="n">bs_price_qmc</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;importance_sampling&quot;</span><span class="p">,</span> <span class="n">bs_price_importance</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;stratified&quot;</span><span class="p">,</span> <span class="n">bs_price_stratified</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"antithetic"</span><span class="p">,</span> <span class="n">bs_price_antithetic</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"qmc_sobol"</span><span class="p">,</span> <span class="n">bs_price_qmc</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"importance_sampling"</span><span class="p">,</span> <span class="n">bs_price_importance</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"stratified"</span><span class="p">,</span> <span class="n">bs_price_stratified</span><span class="p">),</span>
     <span class="p">]:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">price</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
@@ -532,18 +532,18 @@
                 <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
                 <span class="n">return_stderr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">vr_ratio</span> <span class="o">=</span> <span class="n">crude_stderr</span> <span class="o">/</span> <span class="n">stderr</span> <span class="k">if</span> <span class="n">stderr</span> <span class="o">&gt;</span> <span class="mf">1e-12</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+            <span class="n">vr_ratio</span> <span class="o">=</span> <span class="n">crude_stderr</span> <span class="o">/</span> <span class="n">stderr</span> <span class="k">if</span> <span class="n">stderr</span> <span class="o">&gt;</span> <span class="mf">1e-12</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span>
             <span class="n">methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">),</span>
-                <span class="s2">&quot;stderr&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">stderr</span><span class="p">),</span>
-                <span class="s2">&quot;vr_ratio&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">vr_ratio</span><span class="p">),</span>
+                <span class="s2">"price"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">),</span>
+                <span class="s2">"stderr"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">stderr</span><span class="p">),</span>
+                <span class="s2">"vr_ratio"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">vr_ratio</span><span class="p">),</span>
             <span class="p">}</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">),</span>
-                <span class="s2">&quot;stderr&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">),</span>
-                <span class="s2">&quot;vr_ratio&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">),</span>
-                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                <span class="s2">"price"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+                <span class="s2">"stderr"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+                <span class="s2">"vr_ratio"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
             <span class="p">}</span>  <span class="c1"># type: ignore[assignment]</span>
 
     <span class="k">return</span> <span class="n">methods</span></div>

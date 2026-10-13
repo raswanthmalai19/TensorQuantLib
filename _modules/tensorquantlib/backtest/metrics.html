@@ -89,7 +89,7 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.backtest.metrics</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Performance metrics for backtesting.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Performance metrics for backtesting."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -104,7 +104,7 @@
 <div class="viewcode-block" id="sharpe_ratio">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.sharpe_ratio">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sharpe_ratio</span><span class="p">(</span><span class="n">returns</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">periods_per_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annualised Sharpe ratio.</span>
+<span class="w">    </span><span class="sd">"""Annualised Sharpe ratio.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -119,7 +119,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Annualised Sharpe ratio.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">excess</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">rf</span>
     <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">excess</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -132,7 +132,7 @@
 <div class="viewcode-block" id="max_drawdown">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.max_drawdown">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">max_drawdown</span><span class="p">(</span><span class="n">equity</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maximum drawdown from peak.</span>
+<span class="w">    </span><span class="sd">"""Maximum drawdown from peak.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -143,7 +143,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Maximum drawdown as a positive fraction (e.g. 0.15 = 15%).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">eq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">equity</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
     <span class="n">dd</span> <span class="o">=</span> <span class="p">(</span><span class="n">peak</span> <span class="o">-</span> <span class="n">eq</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peak</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -154,7 +154,7 @@
 <div class="viewcode-block" id="sortino_ratio">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.sortino_ratio">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sortino_ratio</span><span class="p">(</span><span class="n">returns</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">periods_per_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annualised Sortino ratio (downside deviation only).</span>
+<span class="w">    </span><span class="sd">"""Annualised Sortino ratio (downside deviation only).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -169,12 +169,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Annualised Sortino ratio.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">excess</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">rf</span>
     <span class="n">downside</span> <span class="o">=</span> <span class="n">excess</span><span class="p">[</span><span class="n">excess</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">downside</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">excess</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">excess</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="n">down_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">downside</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">down_std</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
@@ -185,7 +185,7 @@
 <div class="viewcode-block" id="win_rate">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.win_rate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">win_rate</span><span class="p">(</span><span class="n">trades</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fraction of profitable trades.</span>
+<span class="w">    </span><span class="sd">"""Fraction of profitable trades.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -196,7 +196,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Win rate in [0, 1].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">trades</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
@@ -207,7 +207,7 @@
 <div class="viewcode-block" id="profit_factor">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.profit_factor">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">profit_factor</span><span class="p">(</span><span class="n">trades</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Profit factor = gross profits / gross losses.</span>
+<span class="w">    </span><span class="sd">"""Profit factor = gross profits / gross losses.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -218,12 +218,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Profit factor. Returns inf if no losses.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">trades</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">gross_profit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]))</span>
     <span class="n">gross_loss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">])))</span>
     <span class="k">if</span> <span class="n">gross_loss</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">gross_profit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span> <span class="k">if</span> <span class="n">gross_profit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="k">return</span> <span class="n">gross_profit</span> <span class="o">/</span> <span class="n">gross_loss</span></div>
 
 
@@ -236,7 +236,7 @@
 <div class="viewcode-block" id="annualized_return">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.annualized_return">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">annualized_return</span><span class="p">(</span><span class="n">equity</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">periods_per_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compound annualized growth rate (CAGR) from an equity curve.</span>
+<span class="w">    </span><span class="sd">"""Compound annualized growth rate (CAGR) from an equity curve.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -249,7 +249,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Annualized return, e.g. 0.12 = 12 %.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">eq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">equity</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">eq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
@@ -264,7 +264,7 @@
 <div class="viewcode-block" id="calmar_ratio">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.calmar_ratio">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">calmar_ratio</span><span class="p">(</span><span class="n">equity</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">periods_per_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calmar ratio = annualized return / maximum drawdown.</span>
+<span class="w">    </span><span class="sd">"""Calmar ratio = annualized return / maximum drawdown.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -277,11 +277,11 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Calmar ratio.  Returns ``inf`` if max drawdown is zero.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">ann_ret</span> <span class="o">=</span> <span class="n">annualized_return</span><span class="p">(</span><span class="n">equity</span><span class="p">,</span> <span class="n">periods_per_year</span><span class="p">)</span>
     <span class="n">mdd</span> <span class="o">=</span> <span class="n">max_drawdown</span><span class="p">(</span><span class="n">equity</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mdd</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">ann_ret</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span> <span class="k">if</span> <span class="n">ann_ret</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ann_ret</span> <span class="o">/</span> <span class="n">mdd</span><span class="p">)</span></div>
 
 
@@ -293,7 +293,7 @@
     <span class="n">benchmark_returns</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">periods_per_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annualised information ratio (IR).</span>
+<span class="w">    </span><span class="sd">"""Annualised information ratio (IR).</span>
 
 <span class="sd">    IR = E[active_return] / std(active_return) * sqrt(periods_per_year)</span>
 
@@ -310,7 +310,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Annualised information ratio.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">active</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">strategy_returns</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">benchmark_returns</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">active</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">std</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
@@ -322,7 +322,7 @@
 <div class="viewcode-block" id="turnover">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.metrics.turnover">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">turnover</span><span class="p">(</span><span class="n">trades</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">initial_capital</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1_000_000.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annualized one-way turnover as a fraction of initial capital.</span>
+<span class="w">    </span><span class="sd">"""Annualized one-way turnover as a fraction of initial capital.</span>
 
 <span class="sd">    turnover = total_notional_traded / initial_capital</span>
 
@@ -337,7 +337,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Turnover (e.g. 2.5 = 250 % of capital traded).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">trades</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
     <span class="n">total_notional</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">price</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trades</span><span class="p">)</span>
@@ -353,7 +353,7 @@
     <span class="n">gammas</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="n">prices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decompose per-step portfolio P&amp;L into Delta, Gamma, and residual.</span>
+<span class="w">    </span><span class="sd">"""Decompose per-step portfolio P&amp;L into Delta, Gamma, and residual.</span>
 
 <span class="sd">    For a continuously delta-hedged portfolio, the per-step P&amp;L can be</span>
 <span class="sd">    approximated as:</span>
@@ -382,9 +382,9 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        Keys ``&#39;delta_pnl&#39;``, ``&#39;gamma_pnl&#39;``, ``&#39;residual_pnl&#39;``.</span>
+<span class="sd">        Keys ``'delta_pnl'``, ``'gamma_pnl'``, ``'residual_pnl'``.</span>
 <span class="sd">        Each is an array of length N-1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">equity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">equity_curve</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">prices_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">delta_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">deltas</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -399,9 +399,9 @@
     <span class="n">residual_pnl</span> <span class="o">=</span> <span class="n">total_pnl</span> <span class="o">-</span> <span class="n">delta_pnl</span> <span class="o">-</span> <span class="n">gamma_pnl</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;delta_pnl&quot;</span><span class="p">:</span> <span class="n">delta_pnl</span><span class="p">,</span>
-        <span class="s2">&quot;gamma_pnl&quot;</span><span class="p">:</span> <span class="n">gamma_pnl</span><span class="p">,</span>
-        <span class="s2">&quot;residual_pnl&quot;</span><span class="p">:</span> <span class="n">residual_pnl</span><span class="p">,</span>
+        <span class="s2">"delta_pnl"</span><span class="p">:</span> <span class="n">delta_pnl</span><span class="p">,</span>
+        <span class="s2">"gamma_pnl"</span><span class="p">:</span> <span class="n">gamma_pnl</span><span class="p">,</span>
+        <span class="s2">"residual_pnl"</span><span class="p">:</span> <span class="n">residual_pnl</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -412,7 +412,7 @@
     <span class="n">hedged_equity</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">unhedged_equity</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Variance reduction achieved by a hedge.</span>
+<span class="w">    </span><span class="sd">"""Variance reduction achieved by a hedge.</span>
 
 <span class="sd">    .. math::</span>
 
@@ -433,7 +433,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Hedge efficiency in (-inf, 1].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">hedged_ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hedged_equity</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
     <span class="n">unhedged_ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">unhedged_equity</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
     <span class="n">var_unhedged</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">unhedged_ret</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>

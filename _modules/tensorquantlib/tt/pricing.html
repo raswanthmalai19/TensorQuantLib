@@ -89,7 +89,7 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.tt.pricing</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">TT-accelerated pricing — build compressed surrogates for MC-based pricers.</span>
 
 <span class="sd">Provides factory functions that build TT-surrogate models by evaluating</span>
@@ -110,7 +110,7 @@
 <span class="sd">        T_range=(0.25, 2.0), n_points=15, eps=1e-4,</span>
 <span class="sd">    )</span>
 <span class="sd">    price = surr.evaluate([100, 105, 1.0])</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -127,7 +127,7 @@
     <span class="n">axes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">pricer_fn</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate *pricer_fn* on every point of the Cartesian product of *axes*.</span>
+<span class="w">    </span><span class="sd">"""Evaluate *pricer_fn* on every point of the Cartesian product of *axes*.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        axes: List of 1-D arrays — grid ticks per dimension.</span>
@@ -136,7 +136,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray of shape ``(len(axes[0]), ..., len(axes[-1]))``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">)</span>
     <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">)):</span>
@@ -189,9 +189,9 @@
     <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
     <span class="n">max_rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">n_mc_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TTSurrogate</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a TT-surrogate for Heston MC prices over (S, K, T).</span>
+<span class="w">    </span><span class="sd">"""Build a TT-surrogate for Heston MC prices over (S, K, T).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        S_range: Spot price range.</span>
@@ -203,11 +203,11 @@
 <span class="sd">        eps: TT-SVD tolerance.</span>
 <span class="sd">        max_rank: Maximum TT-rank.</span>
 <span class="sd">        n_mc_paths: Paths for Heston MC.</span>
-<span class="sd">        option_type: &quot;call&quot; or &quot;put&quot;.</span>
+<span class="sd">        option_type: "call" or "put".</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        TTSurrogate with axes [S, K, T].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..finance.heston</span><span class="w"> </span><span class="kn">import</span> <span class="n">HestonParams</span><span class="p">,</span> <span class="n">heston_price_mc</span>
 
     <span class="n">params</span> <span class="o">=</span> <span class="n">HestonParams</span><span class="p">(</span><span class="n">v0</span><span class="o">=</span><span class="n">v0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="n">kappa</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">xi</span><span class="o">=</span><span class="n">xi</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">)</span>
@@ -241,9 +241,9 @@
     <span class="n">max_rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;put&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"put"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TTSurrogate</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a TT-surrogate for American option (LSM) prices over (S, K, T).</span>
+<span class="w">    </span><span class="sd">"""Build a TT-surrogate for American option (LSM) prices over (S, K, T).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        S_range: Spot price range.</span>
@@ -256,11 +256,11 @@
 <span class="sd">        max_rank: Maximum TT-rank.</span>
 <span class="sd">        n_paths: MC paths for LSM.</span>
 <span class="sd">        n_steps: Time steps for LSM.</span>
-<span class="sd">        option_type: &quot;call&quot; or &quot;put&quot;.</span>
+<span class="sd">        option_type: "call" or "put".</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        TTSurrogate with axes [S, K, T].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..finance.american</span><span class="w"> </span><span class="kn">import</span> <span class="n">american_option_lsm</span>
 
     <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span>
@@ -284,7 +284,7 @@
 <div class="viewcode-block" id="exotic_surrogate">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.tt.pricing.exotic_surrogate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">exotic_surrogate</span><span class="p">(</span>
-    <span class="n">exotic_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;asian&quot;</span><span class="p">,</span>
+    <span class="n">exotic_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"asian"</span><span class="p">,</span>
     <span class="n">S_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span>
     <span class="n">K_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">110</span><span class="p">),</span>
     <span class="n">T_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span>
@@ -296,11 +296,11 @@
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="o">**</span><span class="n">pricer_kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TTSurrogate</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a TT-surrogate for exotic option MC prices over (S, K, T).</span>
+<span class="w">    </span><span class="sd">"""Build a TT-surrogate for exotic option MC prices over (S, K, T).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        exotic_type: One of &quot;asian&quot;, &quot;barrier_up_out&quot;, &quot;barrier_down_out&quot;,</span>
-<span class="sd">                     &quot;lookback_fixed&quot;, &quot;lookback_floating&quot;.</span>
+<span class="sd">        exotic_type: One of "asian", "barrier_up_out", "barrier_down_out",</span>
+<span class="sd">                     "lookback_fixed", "lookback_floating".</span>
 <span class="sd">        S_range: Spot price range.</span>
 <span class="sd">        K_range: Strike range.</span>
 <span class="sd">        T_range: Maturity range.</span>
@@ -314,7 +314,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        TTSurrogate with axes [S, K, T].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..finance.exotics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
         <span class="n">asian_price_mc</span><span class="p">,</span>
         <span class="n">barrier_price_mc</span><span class="p">,</span>
@@ -327,14 +327,14 @@
         <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">T_range</span><span class="p">,</span> <span class="n">n_points</span><span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">exotic_type</span> <span class="o">==</span> <span class="s2">&quot;asian&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">exotic_type</span> <span class="o">==</span> <span class="s2">"asian"</span><span class="p">:</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pricer</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">asian_price_mc</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n_paths</span><span class="o">=</span><span class="n">n_paths</span><span class="p">,</span> <span class="o">**</span><span class="n">pricer_kwargs</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">exotic_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;barrier&quot;</span><span class="p">):</span>
-        <span class="n">barrier</span> <span class="o">=</span> <span class="n">pricer_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;barrier&quot;</span><span class="p">,</span> <span class="mf">130.0</span><span class="p">)</span>
-        <span class="c1"># Convert &quot;barrier_up_out&quot; → &quot;up-and-out&quot;</span>
-        <span class="n">bt</span> <span class="o">=</span> <span class="n">exotic_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;barrier_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-and-&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">exotic_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"barrier"</span><span class="p">):</span>
+        <span class="n">barrier</span> <span class="o">=</span> <span class="n">pricer_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"barrier"</span><span class="p">,</span> <span class="mf">130.0</span><span class="p">)</span>
+        <span class="c1"># Convert "barrier_up_out" → "up-and-out"</span>
+        <span class="n">bt</span> <span class="o">=</span> <span class="n">exotic_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"barrier_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">"-and-"</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pricer</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">barrier_price_mc</span><span class="p">(</span>
@@ -348,8 +348,8 @@
                 <span class="n">n_paths</span><span class="o">=</span><span class="n">n_paths</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">pricer_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
-    <span class="k">elif</span> <span class="n">exotic_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;lookback&quot;</span><span class="p">):</span>
-        <span class="n">strike_type</span> <span class="o">=</span> <span class="s2">&quot;fixed&quot;</span> <span class="k">if</span> <span class="s2">&quot;fixed&quot;</span> <span class="ow">in</span> <span class="n">exotic_type</span> <span class="k">else</span> <span class="s2">&quot;floating&quot;</span>
+    <span class="k">elif</span> <span class="n">exotic_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"lookback"</span><span class="p">):</span>
+        <span class="n">strike_type</span> <span class="o">=</span> <span class="s2">"fixed"</span> <span class="k">if</span> <span class="s2">"fixed"</span> <span class="ow">in</span> <span class="n">exotic_type</span> <span class="k">else</span> <span class="s2">"floating"</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pricer</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">lookback_price_mc</span><span class="p">(</span>
@@ -357,7 +357,7 @@
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">result</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown exotic_type: </span><span class="si">{</span><span class="n">exotic_type</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown exotic_type: </span><span class="si">{</span><span class="n">exotic_type</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_make_surrogate</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">pricer</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">max_rank</span><span class="p">)</span></div>
 
@@ -380,9 +380,9 @@
     <span class="n">n_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
     <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
     <span class="n">max_rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"call"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TTSurrogate</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a TT-surrogate for Merton jump-diffusion prices over (S, K, T).</span>
+<span class="w">    </span><span class="sd">"""Build a TT-surrogate for Merton jump-diffusion prices over (S, K, T).</span>
 
 <span class="sd">    Uses the analytic series expansion (fast) rather than MC.</span>
 
@@ -398,11 +398,11 @@
 <span class="sd">        n_points: Grid points per axis.</span>
 <span class="sd">        eps: TT-SVD tolerance.</span>
 <span class="sd">        max_rank: Maximum TT-rank.</span>
-<span class="sd">        option_type: &quot;call&quot; or &quot;put&quot;.</span>
+<span class="sd">        option_type: "call" or "put".</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        TTSurrogate with axes [S, K, T].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..finance.jump_diffusion</span><span class="w"> </span><span class="kn">import</span> <span class="n">merton_jump_price</span>
 
     <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span>

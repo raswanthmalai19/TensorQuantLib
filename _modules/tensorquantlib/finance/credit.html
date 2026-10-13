@@ -89,11 +89,11 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.credit</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Credit risk models: Merton structural model and reduced-form CDS pricing.</span>
+<span></span><span class="sd">"""Credit risk models: Merton structural model and reduced-form CDS pricing.</span>
 
 <span class="sd">Merton (1974) structural model treats equity as a call option on firm assets.</span>
 <span class="sd">Reduced-form models price CDS using hazard rates and survival probabilities.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -108,7 +108,7 @@
 <div class="viewcode-block" id="merton_default_prob">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.finance.credit.merton_default_prob">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">merton_default_prob</span><span class="p">(</span><span class="n">V</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">D</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma_V</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Probability of default under Merton (1974) structural model.</span>
+<span class="w">    </span><span class="sd">"""Probability of default under Merton (1974) structural model.</span>
 
 <span class="sd">    Default occurs when firm value V_T &lt; D at maturity.</span>
 
@@ -129,7 +129,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Risk-neutral probability of default.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">D</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma_V</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_V</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">))</span></div>
 
@@ -138,7 +138,7 @@
 <div class="viewcode-block" id="merton_credit_spread">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.finance.credit.merton_credit_spread">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">merton_credit_spread</span><span class="p">(</span><span class="n">V</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">D</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma_V</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Credit spread implied by the Merton model.</span>
+<span class="w">    </span><span class="sd">"""Credit spread implied by the Merton model.</span>
 
 <span class="sd">    spread = -(1/T) * ln(B / (D * exp(-r*T)))</span>
 <span class="sd">    where B is the risky bond price = D*exp(-r*T) - Put(V, D, T).</span>
@@ -152,7 +152,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Annual credit spread (continuously compounded).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">D</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma_V</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_V</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
     <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">sigma_V</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
     <span class="c1"># Risky bond = D*exp(-rT) - put on V with strike D</span>
@@ -172,10 +172,10 @@
 <div class="viewcode-block" id="survival_probability">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.finance.credit.survival_probability">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">survival_probability</span><span class="p">(</span><span class="n">hazard_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Survival probability under constant hazard rate.</span>
+<span class="w">    </span><span class="sd">"""Survival probability under constant hazard rate.</span>
 
 <span class="sd">    Q(T) = exp(-lambda * T)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">hazard_rate</span> <span class="o">*</span> <span class="n">T</span><span class="p">))</span></div>
 
 
@@ -183,7 +183,7 @@
 <div class="viewcode-block" id="hazard_rate_from_spread">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.finance.credit.hazard_rate_from_spread">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hazard_rate_from_spread</span><span class="p">(</span><span class="n">spread</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">recovery</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implied constant hazard rate from CDS spread.</span>
+<span class="w">    </span><span class="sd">"""Implied constant hazard rate from CDS spread.</span>
 
 <span class="sd">    lambda ≈ spread / (1 - R)</span>
 
@@ -198,7 +198,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Implied hazard rate.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">spread</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">recovery</span><span class="p">)</span></div>
 
 
@@ -213,7 +213,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">cds_spread</span><span class="p">(</span>
     <span class="n">hazard_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">recovery</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">n_premium_dates</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Par CDS spread for constant hazard rate.</span>
+<span class="w">    </span><span class="sd">"""Par CDS spread for constant hazard rate.</span>
 
 <span class="sd">    Premium leg = spread * sum( DF_i * Q_i * delta_i )</span>
 <span class="sd">    Protection leg = (1-R) * sum( DF_i * (Q_{i-1} - Q_i) )</span>
@@ -237,7 +237,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Par CDS spread (annualised).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">n_periods</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">T</span> <span class="o">*</span> <span class="n">n_premium_dates</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_periods</span> <span class="k">if</span> <span class="n">n_periods</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">T</span>
 
@@ -270,7 +270,7 @@
     <span class="n">notional</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e6</span><span class="p">,</span>
     <span class="n">n_premium_dates</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mark-to-market value of a CDS position (protection buyer).</span>
+<span class="w">    </span><span class="sd">"""Mark-to-market value of a CDS position (protection buyer).</span>
 
 <span class="sd">    MTM = protection_leg - spread * risky_annuity</span>
 
@@ -295,7 +295,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        MTM value of the CDS position for the protection buyer.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">n_periods</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">T</span> <span class="o">*</span> <span class="n">n_premium_dates</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_periods</span> <span class="k">if</span> <span class="n">n_periods</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">T</span>
 

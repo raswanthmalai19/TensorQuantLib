@@ -89,7 +89,7 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.backtest.engine</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Backtesting engine with realistic execution cost models.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Backtesting engine with realistic execution cost models."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -108,7 +108,7 @@
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.SlippageModel">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlippageModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Market-impact and bid-ask spread model.</span>
+<span class="w">    </span><span class="sd">"""Market-impact and bid-ask spread model.</span>
 
 <span class="sd">    Total slippage = half-spread cost + square-root market-impact cost.</span>
 
@@ -123,7 +123,7 @@
 <span class="sd">        Set to 0 to disable market impact.</span>
 <span class="sd">    adv : float</span>
 <span class="sd">        Average daily volume (units). Used for impact scaling only.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">fixed_spread</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">market_impact</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -132,7 +132,7 @@
 <div class="viewcode-block" id="SlippageModel.cost">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.SlippageModel.cost">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">quantity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute slippage cost for one trade (always non-negative).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Compute slippage cost for one trade (always non-negative)."""</span>
         <span class="n">spread_cost</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span> <span class="o">*</span> <span class="n">price</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_spread</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">market_impact</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">adv</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">impact_cost</span> <span class="o">=</span> <span class="p">(</span>
@@ -149,7 +149,7 @@
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.CommissionModel">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CommissionModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Commission / brokerage fee model.</span>
+<span class="w">    </span><span class="sd">"""Commission / brokerage fee model.</span>
 
 <span class="sd">    Total commission = max(per_trade + per_unit×|qty| + percentage×notional,</span>
 <span class="sd">    minimum).</span>
@@ -164,7 +164,7 @@
 <span class="sd">        Fraction of notional (e.g. ``0.001`` = 10 bps of notional).</span>
 <span class="sd">    minimum : float</span>
 <span class="sd">        Minimum commission per trade.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">per_trade</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">per_unit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -174,7 +174,7 @@
 <div class="viewcode-block" id="CommissionModel.cost">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.CommissionModel.cost">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">quantity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute commission for one trade (always non-negative).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Compute commission for one trade (always non-negative)."""</span>
         <span class="n">notional</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span> <span class="o">*</span> <span class="n">price</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_trade</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_unit</span> <span class="o">+</span> <span class="n">notional</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentage</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span><span class="p">))</span></div>
@@ -204,34 +204,34 @@
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.BacktestResult">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BacktestResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Container for backtest output.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Container for backtest output."""</span>
 
     <span class="n">equity_curve</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Equity value at each step.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Equity value at each step."""</span>
 
     <span class="n">trades</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Trade</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List of all executed trades.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""List of all executed trades."""</span>
 
     <span class="n">returns</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-step returns of the equity curve.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Per-step returns of the equity curve."""</span>
 
     <span class="n">final_equity</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Final portfolio value.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Final portfolio value."""</span>
 
     <span class="n">total_commission</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Total commissions paid during the backtest.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Total commissions paid during the backtest."""</span>
 
     <span class="n">total_slippage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Total slippage cost paid during the backtest.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Total slippage cost paid during the backtest."""</span>
 
     <span class="n">total_turnover</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Total gross notional traded (sum of |qty| * price).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Total gross notional traded (sum of |qty| * price)."""</span>
 
     <span class="n">n_trades</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of trades executed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Number of trades executed."""</span>
 
     <span class="n">greeks_history</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-step Greeks recorded by the strategy (if any).&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Per-step Greeks recorded by the strategy (if any)."""</span></div>
 
 
 
@@ -243,7 +243,7 @@
 <div class="viewcode-block" id="BacktestEngine">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.BacktestEngine">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BacktestEngine</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run a :class:`Strategy` over a price series with realistic execution.</span>
+<span class="w">    </span><span class="sd">"""Run a :class:`Strategy` over a price series with realistic execution.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -274,7 +274,7 @@
 <span class="sd">            slippage=EQUITY_SLIP,</span>
 <span class="sd">            commission=EQUITY_COMM,</span>
 <span class="sd">        )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -293,7 +293,7 @@
 <div class="viewcode-block" id="BacktestEngine.run">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.backtest.engine.BacktestEngine.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BacktestResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the backtest and return a :class:`BacktestResult`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Execute the backtest and return a :class:`BacktestResult`."""</span>
         <span class="n">strat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span>
         <span class="n">prices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prices</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
@@ -346,7 +346,7 @@
             <span class="n">total_slippage</span><span class="o">=</span><span class="n">total_slippage</span><span class="p">,</span>
             <span class="n">total_turnover</span><span class="o">=</span><span class="n">total_turnover</span><span class="p">,</span>
             <span class="n">n_trades</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">strat</span><span class="o">.</span><span class="n">trades</span><span class="p">),</span>
-            <span class="n">greeks_history</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">strat</span><span class="p">,</span> <span class="s2">&quot;_greeks_history&quot;</span><span class="p">,</span> <span class="p">{})),</span>
+            <span class="n">greeks_history</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">strat</span><span class="p">,</span> <span class="s2">"_greeks_history"</span><span class="p">,</span> <span class="p">{})),</span>
         <span class="p">)</span></div>
 </div>
 

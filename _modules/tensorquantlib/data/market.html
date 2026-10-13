@@ -89,11 +89,11 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.data.market</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Market data wrappers using yfinance.</span>
+<span></span><span class="sd">"""Market data wrappers using yfinance.</span>
 
 <span class="sd">All functions require the ``yfinance`` package, which is an optional</span>
 <span class="sd">dependency installable via ``pip install tensorquantlib[data]``.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -101,74 +101,74 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_import_yfinance</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lazy import of yfinance with a helpful error message.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lazy import of yfinance with a helpful error message."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">yfinance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">yf</span>
 
         <span class="k">return</span> <span class="n">yf</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;yfinance is required for market data functions. &quot;</span>
-            <span class="s2">&quot;Install it with: pip install tensorquantlib[data]&quot;</span>
+            <span class="s2">"yfinance is required for market data functions. "</span>
+            <span class="s2">"Install it with: pip install tensorquantlib[data]"</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
 
 <div class="viewcode-block" id="get_stock_price">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.data.market.get_stock_price">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_stock_price</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the latest closing price for a ticker.</span>
+<span class="w">    </span><span class="sd">"""Get the latest closing price for a ticker.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ticker : str</span>
-<span class="sd">        Stock ticker symbol (e.g. ``&#39;AAPL&#39;``).</span>
+<span class="sd">        Stock ticker symbol (e.g. ``'AAPL'``).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Most recent closing price.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">yf</span> <span class="o">=</span> <span class="n">_import_yfinance</span><span class="p">()</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">Ticker</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
-    <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">&quot;1d&quot;</span><span class="p">)</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">"1d"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">hist</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data returned for ticker &#39;</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No data returned for ticker '</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">"Close"</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
 
 
 <div class="viewcode-block" id="get_historical_prices">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.data.market.get_historical_prices">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_historical_prices</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch historical OHLCV data.</span>
+<span class="w">    </span><span class="sd">"""Fetch historical OHLCV data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ticker : str</span>
 <span class="sd">        Stock ticker symbol.</span>
 <span class="sd">    start : str</span>
-<span class="sd">        Start date ``&#39;YYYY-MM-DD&#39;``.</span>
+<span class="sd">        Start date ``'YYYY-MM-DD'``.</span>
 <span class="sd">    end : str</span>
-<span class="sd">        End date ``&#39;YYYY-MM-DD&#39;``.</span>
+<span class="sd">        End date ``'YYYY-MM-DD'``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        Keys: ``&#39;dates&#39;``, ``&#39;open&#39;``, ``&#39;high&#39;``, ``&#39;low&#39;``, ``&#39;close&#39;``,</span>
-<span class="sd">        ``&#39;volume&#39;`` — each a numpy array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Keys: ``'dates'``, ``'open'``, ``'high'``, ``'low'``, ``'close'``,</span>
+<span class="sd">        ``'volume'`` — each a numpy array.</span>
+<span class="sd">    """</span>
     <span class="n">yf</span> <span class="o">=</span> <span class="n">_import_yfinance</span><span class="p">()</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">Ticker</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
     <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">hist</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data returned for ticker &#39;</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No data returned for ticker '</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;dates&quot;</span><span class="p">:</span> <span class="n">hist</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-        <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Open&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-        <span class="s2">&quot;high&quot;</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">&quot;High&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-        <span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Low&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-        <span class="s2">&quot;close&quot;</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-        <span class="s2">&quot;volume&quot;</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Volume&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="s2">"dates"</span><span class="p">:</span> <span class="n">hist</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="s2">"open"</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">"Open"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="s2">"high"</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">"High"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="s2">"low"</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">"Low"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="s2">"close"</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">"Close"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="s2">"volume"</span><span class="p">:</span> <span class="n">hist</span><span class="p">[</span><span class="s2">"Volume"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
     <span class="p">}</span></div>
 
 
@@ -176,43 +176,43 @@
 <div class="viewcode-block" id="get_options_chain">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.data.market.get_options_chain">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_options_chain</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expiry</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch options chain data.</span>
+<span class="w">    </span><span class="sd">"""Fetch options chain data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ticker : str</span>
 <span class="sd">        Stock ticker symbol.</span>
 <span class="sd">    expiry : str, optional</span>
-<span class="sd">        Expiry date ``&#39;YYYY-MM-DD&#39;``. If *None*, uses the nearest expiry.</span>
+<span class="sd">        Expiry date ``'YYYY-MM-DD'``. If *None*, uses the nearest expiry.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        Keys: ``&#39;calls&#39;`` and ``&#39;puts&#39;``, each a dict with numpy arrays for</span>
-<span class="sd">        ``&#39;strike&#39;``, ``&#39;lastPrice&#39;``, ``&#39;bid&#39;``, ``&#39;ask&#39;``,</span>
-<span class="sd">        ``&#39;impliedVolatility&#39;``, ``&#39;volume&#39;``, ``&#39;openInterest&#39;``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Keys: ``'calls'`` and ``'puts'``, each a dict with numpy arrays for</span>
+<span class="sd">        ``'strike'``, ``'lastPrice'``, ``'bid'``, ``'ask'``,</span>
+<span class="sd">        ``'impliedVolatility'``, ``'volume'``, ``'openInterest'``.</span>
+<span class="sd">    """</span>
     <span class="n">yf</span> <span class="o">=</span> <span class="n">_import_yfinance</span><span class="p">()</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">Ticker</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">expiry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">expiries</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">options</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">expiries</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No options available for &#39;</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No options available for '</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
         <span class="n">expiry</span> <span class="o">=</span> <span class="n">expiries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">chain</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">option_chain</span><span class="p">(</span><span class="n">expiry</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;strike&quot;</span><span class="p">,</span> <span class="s2">&quot;lastPrice&quot;</span><span class="p">,</span> <span class="s2">&quot;bid&quot;</span><span class="p">,</span> <span class="s2">&quot;ask&quot;</span><span class="p">,</span> <span class="s2">&quot;impliedVolatility&quot;</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">,</span> <span class="s2">&quot;openInterest&quot;</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"strike"</span><span class="p">,</span> <span class="s2">"lastPrice"</span><span class="p">,</span> <span class="s2">"bid"</span><span class="p">,</span> <span class="s2">"ask"</span><span class="p">,</span> <span class="s2">"impliedVolatility"</span><span class="p">,</span> <span class="s2">"volume"</span><span class="p">,</span> <span class="s2">"openInterest"</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;calls&quot;</span><span class="p">:</span> <span class="n">_extract</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">calls</span><span class="p">),</span> <span class="s2">&quot;puts&quot;</span><span class="p">:</span> <span class="n">_extract</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">puts</span><span class="p">)}</span></div>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"calls"</span><span class="p">:</span> <span class="n">_extract</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">calls</span><span class="p">),</span> <span class="s2">"puts"</span><span class="p">:</span> <span class="n">_extract</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">puts</span><span class="p">)}</span></div>
 
 
 
 <div class="viewcode-block" id="historical_volatility">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.data.market.historical_volatility">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">historical_volatility</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">,</span> <span class="n">annualize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute realised historical volatility from daily close prices.</span>
+<span class="w">    </span><span class="sd">"""Compute realised historical volatility from daily close prices.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -227,13 +227,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Historical volatility.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">yf</span> <span class="o">=</span> <span class="n">_import_yfinance</span><span class="p">()</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">Ticker</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
-    <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">window</span><span class="si">}</span><span class="s2">d&quot;</span><span class="p">)</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">window</span><span class="si">}</span><span class="s2">d"</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Insufficient data for ticker &#39;</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-    <span class="n">prices</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Insufficient data for ticker '</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[</span><span class="s2">"Close"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
     <span class="n">log_returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">prices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">vol</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">log_returns</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">annualize</span><span class="p">:</span>
@@ -245,7 +245,7 @@
 <div class="viewcode-block" id="get_risk_free_rate">
 <a class="viewcode-back" href="../../../api.html#tensorquantlib.data.market.get_risk_free_rate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_risk_free_rate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get approximate risk-free rate from 13-week US Treasury yield.</span>
+<span class="w">    </span><span class="sd">"""Get approximate risk-free rate from 13-week US Treasury yield.</span>
 
 <span class="sd">    Uses the ``^IRX`` ticker (CBOE 13-week T-Bill) as a proxy.</span>
 
@@ -253,14 +253,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Annualised risk-free rate (e.g. 0.05 for 5%).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">yf</span> <span class="o">=</span> <span class="n">_import_yfinance</span><span class="p">()</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">Ticker</span><span class="p">(</span><span class="s2">&quot;^IRX&quot;</span><span class="p">)</span>
-    <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">&quot;5d&quot;</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">Ticker</span><span class="p">(</span><span class="s2">"^IRX"</span><span class="p">)</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">"5d"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">hist</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not fetch Treasury rate data&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Could not fetch Treasury rate data"</span><span class="p">)</span>
     <span class="c1"># ^IRX is quoted as a percentage (e.g. 5.25 means 5.25%)</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">100.0</span></div>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">"Close"</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">100.0</span></div>
 
 </pre></div>
 

@@ -89,7 +89,7 @@
           <div class="body" role="main">
             
   <h1>Source code for tensorquantlib.finance.american</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">American option pricing via the Longstaff-Schwartz (2001) Least-Squares Monte Carlo (LSM) algorithm.</span>
 
 <span class="sd">American options grant the holder the right to exercise early. LSM approximates</span>
@@ -104,7 +104,7 @@
 <span class="sd">References:</span>
 <span class="sd">    Longstaff, F.A. &amp; Schwartz, E.S. (2001). Valuing American Options by Simulation:</span>
 <span class="sd">    A Simple Least-Squares Approach. RFS 14(1), 113-147.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -126,7 +126,7 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;put&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"put"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">252</span><span class="p">,</span>
@@ -134,7 +134,7 @@
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_stderr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price an American option via Longstaff-Schwartz LSM.</span>
+<span class="w">    </span><span class="sd">"""Price an American option via Longstaff-Schwartz LSM.</span>
 
 <span class="sd">    Simulates GBM paths and uses polynomial regression to estimate the</span>
 <span class="sd">    continuation value at each exercise date, then takes the maximum of</span>
@@ -147,7 +147,7 @@
 <span class="sd">        r: Risk-free rate.</span>
 <span class="sd">        sigma: Volatility (constant).</span>
 <span class="sd">        q: Continuous dividend yield (default 0).</span>
-<span class="sd">        option_type: &#39;put&#39; or &#39;call&#39;.</span>
+<span class="sd">        option_type: 'put' or 'call'.</span>
 <span class="sd">        n_paths: Number of Monte Carlo paths (default 100k).</span>
 <span class="sd">        n_steps: Number of exercise dates (default 252 = daily).</span>
 <span class="sd">        basis_degree: Degree of Laguerre polynomial basis (default 3).</span>
@@ -161,7 +161,7 @@
 <span class="sd">        &gt;&gt;&gt; price = american_option_lsm(100.0, 100.0, 1.0, 0.05, 0.2, seed=42)</span>
 <span class="sd">        &gt;&gt;&gt; 3.0 &lt; price &lt; 8.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">n_steps</span>
     <span class="n">discount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
@@ -184,12 +184,12 @@
     <span class="p">)</span>  <span class="c1"># shape: (n_steps+1, n_paths)</span>
 
     <span class="c1"># Payoff at each step</span>
-    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;put&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"put"</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">S_paths</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
         <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S_paths</span> <span class="o">-</span> <span class="n">K</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;option_type must be &#39;put&#39; or &#39;call&#39;, got </span><span class="si">{</span><span class="n">option_type</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"option_type must be 'put' or 'call', got </span><span class="si">{</span><span class="n">option_type</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Cash flows: start with terminal payoff</span>
     <span class="n">cash_flows</span> <span class="o">=</span> <span class="n">payoffs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># shape: (n_paths,)</span>
@@ -236,11 +236,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_laguerre_basis</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">degree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute generalised Laguerre polynomial basis up to given degree.</span>
+<span class="w">    </span><span class="sd">"""Compute generalised Laguerre polynomial basis up to given degree.</span>
 
 <span class="sd">    Uses the normalised form as suggested by Longstaff &amp; Schwartz (2001).</span>
 <span class="sd">    Shape of output: (len(x), degree + 1).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">degree</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
@@ -272,13 +272,13 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;put&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"put"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Price American options over a grid of spot prices.</span>
+<span class="w">    </span><span class="sd">"""Price American options over a grid of spot prices.</span>
 
 <span class="sd">    Uses the same path set (bumped spot) to reduce variance across prices.</span>
 
@@ -296,7 +296,7 @@
 <span class="sd">        &gt;&gt;&gt; prices = american_option_grid(S_grid, K=100, T=1.0, r=0.05, sigma=0.2, seed=0)</span>
 <span class="sd">        &gt;&gt;&gt; prices.shape[0] == 5</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">prices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="p">[</span>
             <span class="nb">float</span><span class="p">(</span>
@@ -334,7 +334,7 @@
     <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;put&quot;</span><span class="p">,</span>
+    <span class="n">option_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"put"</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
@@ -343,7 +343,7 @@
     <span class="n">dT</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">365.0</span><span class="p">,</span>
     <span class="n">dsigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute American option Greeks via finite differences on LSM prices.</span>
+<span class="w">    </span><span class="sd">"""Compute American option Greeks via finite differences on LSM prices.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        S, K, T, r, sigma, q, option_type: Option parameters.</span>
@@ -353,13 +353,13 @@
 <span class="sd">        dsigma: Bump size for Vega (default 0.01).</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Dictionary with keys: &#39;delta&#39;, &#39;gamma&#39;, &#39;theta&#39;, &#39;vega&#39;.</span>
+<span class="sd">        Dictionary with keys: 'delta', 'gamma', 'theta', 'vega'.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; g = american_greeks(100.0, 100.0, 1.0, 0.05, 0.2, seed=0)</span>
-<span class="sd">        &gt;&gt;&gt; 0.0 &lt; abs(g[&#39;delta&#39;]) &lt; 1.0</span>
+<span class="sd">        &gt;&gt;&gt; 0.0 &lt; abs(g['delta']) &lt; 1.0</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">option_type</span><span class="o">=</span><span class="n">option_type</span><span class="p">,</span> <span class="n">n_paths</span><span class="o">=</span><span class="n">n_paths</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
 
     <span class="n">p0</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">american_option_lsm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">))</span>  <span class="c1"># type: ignore[call-arg, arg-type]</span>
@@ -375,7 +375,7 @@
     <span class="n">pv</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">american_option_lsm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">+</span> <span class="n">dsigma</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">))</span>  <span class="c1"># type: ignore[call-arg, arg-type]</span>
     <span class="n">vega</span> <span class="o">=</span> <span class="p">(</span><span class="n">pv</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">/</span> <span class="n">dsigma</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="n">theta</span><span class="p">,</span> <span class="s2">&quot;vega&quot;</span><span class="p">:</span> <span class="n">vega</span><span class="p">}</span></div>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"delta"</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span> <span class="s2">"gamma"</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span> <span class="s2">"theta"</span><span class="p">:</span> <span class="n">theta</span><span class="p">,</span> <span class="s2">"vega"</span><span class="p">:</span> <span class="n">vega</span><span class="p">}</span></div>
 
 </pre></div>
 
