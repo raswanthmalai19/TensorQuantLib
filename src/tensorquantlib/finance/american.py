@@ -17,7 +17,7 @@ References:
 
 from __future__ import annotations
 
-from typing import Union
+from typing import TypedDict, Union, cast
 
 import numpy as np
 
@@ -203,7 +203,8 @@ def american_option_grid(
     """
     prices = np.array(
         [
-            float(
+            cast(
+                float,
                 american_option_lsm(
                     float(s),
                     K,
@@ -215,7 +216,7 @@ def american_option_grid(
                     n_paths=n_paths,
                     n_steps=n_steps,
                     seed=seed,
-                )
+                ),
             )
             for s in S_grid
         ]
@@ -226,6 +227,16 @@ def american_option_grid(
 # ------------------------------------------------------------------ #
 # Greeks via finite differences
 # ------------------------------------------------------------------ #
+
+
+class _LsmKwargs(TypedDict):
+    """Keyword arguments shared by the american_option_lsm calls in american_greeks."""
+
+    q: float
+    option_type: str
+    n_paths: int
+    n_steps: int
+    seed: int | None
 
 
 def american_greeks(
@@ -261,19 +272,26 @@ def american_greeks(
         >>> 0.0 < abs(g['delta']) < 1.0
         True
     """
-    kw = dict(q=q, option_type=option_type, n_paths=n_paths, n_steps=n_steps, seed=seed)
+    kw: _LsmKwargs = {
+        "q": q,
+        "option_type": option_type,
+        "n_paths": n_paths,
+        "n_steps": n_steps,
+        "seed": seed,
+    }
 
-    p0 = float(american_option_lsm(S, K, T, r, sigma, **kw))  # type: ignore[call-arg, arg-type]
-    pu = float(american_option_lsm(S + dS, K, T, r, sigma, **kw))  # type: ignore[call-arg, arg-type]
-    pd = float(american_option_lsm(S - dS, K, T, r, sigma, **kw))  # type: ignore[call-arg, arg-type]
+    # return_stderr is never set in kw, so each call returns a plain float.
+    p0 = cast(float, american_option_lsm(S, K, T, r, sigma, **kw))
+    pu = cast(float, american_option_lsm(S + dS, K, T, r, sigma, **kw))
+    pd = cast(float, american_option_lsm(S - dS, K, T, r, sigma, **kw))
 
     delta = (pu - pd) / (2.0 * dS)
     gamma = (pu - 2.0 * p0 + pd) / (dS**2)
 
-    pt = float(american_option_lsm(S, K, T - dT, r, sigma, **kw))  # type: ignore[call-arg, arg-type]
+    pt = cast(float, american_option_lsm(S, K, T - dT, r, sigma, **kw))
     theta = (pt - p0) / dT
 
-    pv = float(american_option_lsm(S, K, T, r, sigma + dsigma, **kw))  # type: ignore[call-arg, arg-type]
+    pv = cast(float, american_option_lsm(S, K, T, r, sigma + dsigma, **kw))
     vega = (pv - p0) / dsigma
 
     return {"delta": delta, "gamma": gamma, "theta": theta, "vega": vega}

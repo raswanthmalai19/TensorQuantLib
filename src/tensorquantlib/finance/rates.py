@@ -319,7 +319,7 @@ def nelson_siegel_calibrate(
     if initial_guess is None:
         initial_guess = (yields[-1], yields[0] - yields[-1], 0.0, 1.0)
 
-    def objective(params):
+    def objective(params: np.ndarray) -> float:
         b0, b1, b2, tau = params
         if tau <= 0:
             return 1e10
@@ -373,4 +373,5 @@ def bootstrap_yield_curve(
     """
     maturities = np.asarray(maturities, dtype=float)
     prices = np.asarray(prices, dtype=float)
-    return -np.log(prices) / maturities
+    zero_rates: np.ndarray = -np.log(prices) / maturities
+    return zero_rates
