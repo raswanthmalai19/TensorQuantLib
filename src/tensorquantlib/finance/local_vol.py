@@ -81,7 +81,8 @@ def dupire_local_vol(
 
     # Clamp to avoid negative values (numerical noise)
     local_vol2 = np.maximum(local_vol2, 1e-8)
-    return np.sqrt(local_vol2)
+    local_vol: np.ndarray = np.sqrt(local_vol2)
+    return local_vol
 
 
 def local_vol_mc(

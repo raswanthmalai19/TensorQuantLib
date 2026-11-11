@@ -148,7 +148,7 @@ def sabr_calibrate(
     if initial_guess is None:
         initial_guess = (0.2, -0.3, 0.4)
 
-    def objective(params):
+    def objective(params: np.ndarray) -> float:
         alpha, rho, nu = params
         if alpha <= 0 or nu < 0 or rho <= -1 or rho >= 1:
             return 1e10
@@ -291,7 +291,7 @@ def svi_calibrate(
             0.1,
         )
 
-    def objective(params):
+    def objective(params: np.ndarray) -> float:
         a, b, rho, m, sigma_p = params
         if b < 0 or sigma_p <= 0 or rho < -1 or rho > 1:
             return 1e10

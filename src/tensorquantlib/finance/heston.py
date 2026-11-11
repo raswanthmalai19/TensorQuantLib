@@ -105,7 +105,7 @@ def _heston_cf(
     )
     D = (g_num / xi**2) * (1.0 - exp_dT) / (1.0 - g * exp_dT)
 
-    return np.exp(C + D * v0 + 1j * phi * x)
+    return complex(np.exp(C + D * v0 + 1j * phi * x))
 
 
 # ------------------------------------------------------------------ #
@@ -330,7 +330,7 @@ def heston_price_mc(
     else:
         payoffs = np.maximum(K - S_t, 0.0)
 
-    discount = np.exp(-r * T)
+    discount = float(np.exp(-r * T))
     price = discount * float(np.mean(payoffs))
     stderr = discount * float(np.std(payoffs) / np.sqrt(n_paths))
 

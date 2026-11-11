@@ -23,7 +23,7 @@ References:
 from __future__ import annotations
 
 from itertools import pairwise
-from typing import Union
+from typing import Union, cast
 
 import numpy as np
 from scipy.stats import norm, qmc
@@ -412,17 +412,22 @@ def compare_variance_reduction(
         ("stratified", bs_price_stratified),
     ]:
         try:
-            price, stderr = fn(  # type: ignore[call-arg]
-                S,
-                K,
-                T,
-                r,
-                sigma,
-                q=q,
-                option_type=option_type,
-                n_paths=n_paths,
-                seed=seed,
-                return_stderr=True,
+            # Each fn returns (price, stderr) when return_stderr=True; its
+            # declared return type is the float | tuple union, hence the cast.
+            price, stderr = cast(
+                "tuple[float, float]",
+                fn(
+                    S,
+                    K,
+                    T,
+                    r,
+                    sigma,
+                    q=q,
+                    option_type=option_type,
+                    n_paths=n_paths,
+                    seed=seed,
+                    return_stderr=True,
+                ),
             )
             vr_ratio = crude_stderr / stderr if stderr > 1e-12 else float("inf")
             methods[name] = {
@@ -435,7 +440,9 @@ def compare_variance_reduction(
                 "price": float("nan"),
                 "stderr": float("nan"),
                 "vr_ratio": float("nan"),
-                "error": str(e),
-            }  # type: ignore[assignment]
+                # The error entry is intentionally a string in a
+                # float-valued result dict; callers check for its presence.
+                "error": str(e),  # type: ignore[dict-item]
+            }
 
     return methods

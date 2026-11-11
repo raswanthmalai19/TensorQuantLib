@@ -445,11 +445,11 @@ def barrier_price(
 
     def c_di() -> float:
         """Down-and-in call, H <= K."""
-        return S * dq * pow_ll * N(y) - K * df * pow_ll2 * N(y - sigma_rt)
+        return float(S * dq * pow_ll * N(y) - K * df * pow_ll2 * N(y - sigma_rt))
 
     def c_di_H_gt_K() -> float:
         """Down-and-in call, H > K."""
-        return (
+        return float(
             S * dq * N(x1)
             - K * df * N(x1 - sigma_rt)
             - S * dq * pow_ll * (N(-y) - N(-y1))
@@ -458,7 +458,7 @@ def barrier_price(
 
     def c_uo() -> float:
         """Up-and-out call, H > K (the only meaningful case for up-out call)."""
-        return (
+        return float(
             S * dq * N(x1)
             - K * df * N(x1 - sigma_rt)
             - S * dq * pow_ll * N(y1)
@@ -467,7 +467,7 @@ def barrier_price(
 
     def c_ui() -> float:
         """Up-and-in call, H >= K."""
-        return (
+        return float(
             S * dq * N(x1)
             - K * df * N(x1 - sigma_rt)
             - S * dq * pow_ll * (N(-y) - N(-y1))
@@ -476,11 +476,11 @@ def barrier_price(
 
     def p_ui() -> float:
         """Up-and-in put, H >= K."""
-        return -S * dq * pow_ll * N(-y) + K * df * pow_ll2 * N(-y + sigma_rt)
+        return float(-S * dq * pow_ll * N(-y) + K * df * pow_ll2 * N(-y + sigma_rt))
 
     def p_ui_H_lt_K() -> float:
         """Up-and-in put, H < K."""
-        return (
+        return float(
             -S * dq * N(-x1)
             + K * df * N(-x1 + sigma_rt)
             + S * dq * pow_ll * (N(y) - N(y1))
@@ -489,7 +489,7 @@ def barrier_price(
 
     def p_di() -> float:
         """Down-and-in put, H < K."""
-        return (
+        return float(
             -S * dq * N(-x1)
             + K * df * N(-x1 + sigma_rt)
             + S * dq * pow_ll * (N(y) - N(y1))
@@ -532,11 +532,11 @@ def barrier_price(
 
 
 def _d1(S: float, K: float, T: float, r: float, sigma: float, q: float) -> float:
-    return (np.log(S / K) + (r - q + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    return float((np.log(S / K) + (r - q + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T)))
 
 
 def _d2(S: float, K: float, T: float, r: float, sigma: float, q: float) -> float:
-    return _d1(S, K, T, r, sigma, q) - sigma * np.sqrt(T)
+    return float(_d1(S, K, T, r, sigma, q) - sigma * np.sqrt(T))
 
 
 def _indicator_hit(
